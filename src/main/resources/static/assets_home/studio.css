@@ -1,0 +1,50 @@
+.topbar{
+    padding-top:0px;
+    padding-bottom:0px
+}
+#youtube-logo{
+    margin-left:20px;
+}
+ .search-bar {
+    position: relative;
+    max-width: 600px;
+    margin: auto;
+ }
+.search-bar input {
+    /*max-width:600px;*/
+    height:40px;
+    border-radius: 10px;
+    padding-right: 40px;
+}
+.search-bar button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border: none;
+    background: none;
+
+}
+.search-bar button:hover {
+    background-color: #e8e8e8;
+}
+.dropdown-menu{
+    width:300px;
+}
+.dropdown-menu .dropdown-header{
+    height:70px;
+}
+ .camera-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #f8f8f8;
+    text-decoration: none;
+    color: #000;
+}
+.camera-link:hover {
+    background-color: #e8e8e8;
+}

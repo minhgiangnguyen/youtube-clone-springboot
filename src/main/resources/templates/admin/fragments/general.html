@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+
+<div th:fragment="header">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand">ADMIN</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarAdmin" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div  class="collapse navbar-collapse" id="navbarAdmin">
+            <ul class="navbar-nav mr-auto ">
+                <li class="nav-item active" style="margin-left:50px">
+                    <a class="nav-link" href="/admin/channel">Channel management</a>
+                </li>
+                <li class="nav-item active" style="margin-left:50px">
+                    <a class="nav-link" href="/admin/video">Video management</a>
+                </li>
+            </ul>
+        </div>
+        <div class="dropdown d-flex justify-content-end" style="margin-right:20px">
+            <div class="dropdown show">
+                <a class="btn  dropdown-toggle" href="#" role="button"
+                   id="profileUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                   style="color: black, background-color:white, border:none">
+                    <img class="rounded-circle" th:if="${#authentication.principal.photosImagePath}"
+                         th:src="${#authentication.principal.photosImagePath}"
+                         alt="profile" width="30" height="30"/>
+
+                    <span sec:authentication="principal.channelName"></span>
+                </a>
+
+                <div class="dropdown-menu" aria-labelledby="profileUser">
+                    <a class="dropdown-item" href="/logout">Log out</a>
+
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+
+
+
+</body>
+</html>

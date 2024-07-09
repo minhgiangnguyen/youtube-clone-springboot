@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="d-flex justify-content-center align-items-center flex-column" style="margin-top:50px">
+   <div class="card" style="width: 26rem">
+       <div class="card-body">
+           <h5 class="card-title">YOUTUBE</h5>
+           <h6 class="card-subtitle mb-2 text-muted">Sign in</h6>
+           <p th:text="${success}" class="text-success"></p>
+           <form action="#" th:action="@{/login}" method="post" >
+
+               <div style="color:red" th:if="${param.deny}">
+                   You don't have authorization to access.
+               </div>
+               <div style="color:red" th:if="${param.error}">
+                   Wrong email and password.
+               </div>
+               <div style="color:blue" th:if="${param.logout}">
+                   You have been logged out successfully
+               </div>
+               <div class="mb-3">
+                   <label  class="form-label">Email</label>
+                   <input type="text" class="form-control" name="email"/>
+
+               </div>
+               <div class="mb-3">
+                   <label  class="form-label">Password</label>
+                   <input type="password" class="form-control" name="password" >
+
+               </div>
+
+               <div class="row justify-content-between">
+                   <div class="col-5">
+                       <a class="d-flex" th:href="@{/register}">Create Account</a>
+                   </div>
+                   <div class="col-3">
+                       <button type="submit" class="btn btn-primary">Submit</button>
+                   </div>
+               </div>
+
+
+
+           </form>
+       </div>
+   </div>
+
+</div>
+</body>
+</html>

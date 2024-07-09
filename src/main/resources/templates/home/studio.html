@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Studio</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/assets_home/studio.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
+    <link th:href="@{/DataTables/datatables.min.css}" rel="stylesheet">
+
+    <script th:src="@{/DataTables/datatables.min.js}"></script>
+</head>
+<body>
+    <div th:replace="~{home/fragments/general.html::
+    topbar('/assets_home/images/Youtube-studio-logo.png','/studio/'+${id})}"></div>
+
+    <div class="container-fluid">
+        <div class="row" style="height:900px">
+            <div class="col-2" >
+                <div th:replace="~{home/fragments/sidebarStudio.html::sidebar}"></div>
+            </div>
+            <div class="col-10" style="padding:10px">
+                <div class="w-100">
+
+
+                    <div class="card">
+                        <div class="card-header" style="font-size:larger">
+                            <div class="d-flex justify-content-between">
+                                <h3>Content channel</h3>
+                                <div th:replace="~{home/fragments/modalUpload.html::modal}"></div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table th:id="'videoList-'+${id}" class="table" >
+                                <thead class="thead-light">
+                                <tr>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Video</th>
+<!--                                    <th scope="col">Description</th>-->
+                                    <th scope="col">Create date</th>
+                                    <th scope="col">Update date</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <th:block th:each="video : ${videoList}">
+                                    <tr >
+                                        <td th:text="${video.title}" style="width:35%">Title</td>
+                                        <td >
+                                            <!-- Button watch video -->
+                                            <button type="button"  data-toggle="modal"
+                                                    th:data-target="'#video-'+${video.videoId}" style="border:none; padding: 0">
+                                                <img th:src="@{${video.thumbsPath}}" width="100"/>
+                                            </button>
+                                            <!-- Modal -->
+                                            <div class="modal fade" th:id="'video-'+${video.videoId}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel" th:text="${video.title}"></h5>
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body" >
+                                                            <video width="400" controls>
+                                                                <source th:src="@{${video.videosPath}}" />
+                                                            </video>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Modal -->
+                                        </td>
+<!--                                        <td th:text="${video.desc}">Description</td>-->
+                                        <td th:text="${#temporals.format(video.createAt, 'dd-MM-yyyy HH:mm')}">Create date</td>
+                                        <td th:text="${#temporals.format(video.updateAt, 'dd-MM-yyyy HH:mm')}">Update date</td>
+                                        <td>
+                                            <a th:href="@{'/studio/'+${id}+'/videos/delete/'+${video.videoId} }" class="btn btn-danger"
+                                               onclick="return confirm('Do you delete this User?')">Delete</a>
+                                            <a th:href="@{'/studio/'+${id}+'/videos/edit/'+${video.videoId} }" class="btn btn-primary" >
+                                                Edit
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </th:block>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <script th:inline="javascript">
+        CKEDITOR.replace('desc')
+        $('#uploadVideo').modal(/*[[${modalForm}]]*/)
+        $(document).ready( function () {
+            new DataTable('#videoList-'+/*[[${id}]]*/,{
+            lengthMenu: [
+                    [5, 10, 15],
+                    [5, 10, 15]
+                ]
+            });
+        });
+    </script>
+</body>
+</html>

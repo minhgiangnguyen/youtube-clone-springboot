@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Youtube</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/assets_home/home.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+</head>
+<body>
+    <div th:replace="~{home/fragments/general.html::
+     topbar('assets_home/images/Youtube-logo.jpg','/')}"></div>
+
+    <div th:replace="~{home/fragments/general.html::sidebar}"></div>
+
+    <main class="container" id="video-section">
+        <div class="card-deck">
+            <div class="row">
+                <th:block th:each="video : ${allVideo}">
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card" style="width: 19rem;border:none">
+                            <img class="card-img-top" th:src="@{${video.thumbsPath}}" alt="Card image cap">
+                            <div class="card-body" style="padding: 0;padding-top: 15px;">
+                                <div class="row">
+                                    <div class="col-2" >
+                                            <img class="rounded-circle" th:src="@{${video.photosImagePath}}" alt="avatar"
+                                                 width="40" height="40">
+                                    </div>
+                                    <div class="col-10" >
+                                        <h5 class="card-title" th:text="${video.title}" style="font-size: large;" ></h5>
+                                        <a class="card-text" th:text="${video.channelName}" ></a>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+
+
+
+    </main>
+
+
+</body>
+</html>

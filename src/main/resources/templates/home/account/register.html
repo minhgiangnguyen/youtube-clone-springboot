@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Youtube</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class=" d-flex justify-content-center" style="margin-top:20px">
+    <div class="card" style="width: 30rem">
+        <div class="card-body" >
+
+            <h5 class="card-title">YOUTUBE</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Create your YouTube account</h6>
+            <p th:text="${msg}" style="color:red"></p>
+            <form action="" th:action="@{/register}" method="post" th:object="${user}" enctype="multipart/form-data" >
+                <div class="mb-3">
+                    <label  class="form-label">Email address</label>
+                    <input type="text" class="form-control" th:field="*{email}"/>
+                    <div  class="form-text" style="color:red"
+                          th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                </div>
+                <div class="mb-3">
+                    <label  class="form-label">Channel Name</label>
+                    <input type="text" class="form-control" th:field="*{channelName}" >
+                    <div  class="form-text" style="color:red"
+                          th:if="${#fields.hasErrors('channelName')}" th:errors="*{channelName}"></div>
+                </div>
+                <div class="mb-3">
+                    <label  class="form-label">Password</label>
+                    <input type="password" class="form-control"  th:field="*{password}">
+                    <div  class="form-text" style="color:red"
+                          th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+                </div>
+                <div class="mb-3">
+                    <label  class="form-label">Avatar</label>
+                    <input class="form-control" type="file" id="file"  name="file" accept=".jpg, .jpeg, .png" >
+                    <div  class="form-text" style="color:red" th:text="${err}" ></div>
+
+                </div>
+                <div class="mb-3">
+                    <p id="avatarImgTag"></p>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<script type="text/javascript" th:src="@{/assets_home/home.js}"></script>
+</body>
+</html>
