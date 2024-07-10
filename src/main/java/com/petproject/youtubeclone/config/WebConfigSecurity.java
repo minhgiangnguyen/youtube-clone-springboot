@@ -50,7 +50,9 @@ public class WebConfigSecurity {
                                         ,"/channel/**"
                                         ,"/register"
                                         ,"/webjars/**"
-                                        ,"/assets_home/**")
+                                        ,"/assets_home/**"
+                                        ,"/user-videos/**"
+                                        ,"/user-photos/**")
                         .permitAll()
                         .requestMatchers("/studio/**","/studio").hasRole("USER")
                         .requestMatchers("/admin/**","/admin*").hasRole("ADMIN")

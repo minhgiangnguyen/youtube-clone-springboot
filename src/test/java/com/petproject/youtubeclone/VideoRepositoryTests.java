@@ -2,6 +2,7 @@ package com.petproject.youtubeclone;
 
 import com.petproject.youtubeclone.models.Video;
 import com.petproject.youtubeclone.models.dto.VideoUserDTO;
+import com.petproject.youtubeclone.models.projections.VideoDetailUserProjection;
 import com.petproject.youtubeclone.models.projections.VideoUserProjection;
 import com.petproject.youtubeclone.repositories.VideoRepository;
 import com.petproject.youtubeclone.utils.VideoIdGenerator;
@@ -77,6 +78,16 @@ public class VideoRepositoryTests {
         for(VideoUserDTO v: allVideo){
             System.out.println(v.getThumbsPath());
         }
+    }
+
+    @Test
+    public void testGetVideoSpecifyColumnById() {
+        String videoId = "08givmryRb6T13DoToJl8g";
+        VideoDetailUserProjection videoProjection = repo.getVideoByIdWithUserIDChannel(videoId);
+
+        assertThat(videoProjection).isNotNull();
+        System.out.println(videoProjection.getPhotosImagePath());
+
     }
 
 }

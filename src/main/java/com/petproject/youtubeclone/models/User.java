@@ -54,6 +54,8 @@ public class User {
 
 
 
+
+
     @Transient
     public String getPhotosImagePath() {
 
