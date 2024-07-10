@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface VideoDetailUserProjection {
     String getTitle();
-    String getDesc();
+    String getDescription();
     String getVideoUrl();
     LocalDateTime getCreateAt();
     int getUserId();

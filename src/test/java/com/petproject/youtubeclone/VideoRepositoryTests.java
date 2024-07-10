@@ -36,7 +36,7 @@ public class VideoRepositoryTests {
         video.setTitle("Video 1");
         video.setVideoUrl("video.mp4");
         video.setThumbnail("video.jpg");
-        video.setDesc("No desc");
+        video.setDescription("No desc");
         video.setUserId(32);
         video.setCreateAt(LocalDateTime.now());
         video.setUpdateAt(LocalDateTime.now());
@@ -86,7 +86,8 @@ public class VideoRepositoryTests {
         VideoDetailUserProjection videoProjection = repo.getVideoByIdWithUserIDChannel(videoId);
 
         assertThat(videoProjection).isNotNull();
-        System.out.println(videoProjection.getPhotosImagePath());
+        System.out.println(videoProjection.getDescription());
+
 
     }
 

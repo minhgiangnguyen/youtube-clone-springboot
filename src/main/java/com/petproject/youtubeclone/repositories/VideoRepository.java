@@ -19,7 +19,7 @@ public interface VideoRepository  extends JpaRepository<Video,Integer> {
             + " ON v.user_id = u.user_id "
             , nativeQuery = true)
     List<VideoUserProjection> getAllVideoSpecifyColumn();
-    @Query(value = "SELECT v.title,v.description,v.video_url,v.create_at,"
+    @Query(value = "SELECT v.title,v.description ,v.video_url,v.create_at,"
             +" u.user_id, u.channel_name,u.photo_url "
             + " from Videos v"
             +" INNER JOIN Users u"

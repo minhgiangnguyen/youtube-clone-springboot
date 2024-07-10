@@ -16,6 +16,7 @@ public class VideoController {
     @GetMapping("/videos/{id}")
     public String video(@PathVariable("id")String id, Model model){
         VideoDetailUserProjection video = service.getVideoById(id);
+        if(video == null) return "home/404";
         model.addAttribute("video",video);
         return "home/video";
     }
