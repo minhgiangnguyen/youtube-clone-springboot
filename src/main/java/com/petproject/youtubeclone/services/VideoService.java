@@ -2,6 +2,7 @@ package com.petproject.youtubeclone.services;
 
 import com.petproject.youtubeclone.models.Video;
 import com.petproject.youtubeclone.models.dto.VideoUserDTO;
+import com.petproject.youtubeclone.models.projections.VideoDetailUserProjection;
 import com.petproject.youtubeclone.models.projections.VideoUserProjection;
 import com.petproject.youtubeclone.repositories.VideoRepository;
 import com.petproject.youtubeclone.utils.VideoIdGenerator;
@@ -49,5 +50,8 @@ public class VideoService {
                 new VideoUserDTO(pro.getVideoId(), pro.getTitle()
                         ,pro.getUserId(),pro.getChannelName(),pro.getPhotoUrl(),pro.getThumbnail())
         ).toList();
+    }
+    public VideoDetailUserProjection getVideoById(String videoId) {
+        return repo.getVideoByIdWithUserIDChannel(videoId);
     }
 }

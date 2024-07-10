@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Video</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/assets_home/home.css" />
+    <link href="https://vjs.zencdn.net/8.12.0/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/8.12.0/video.min.js"></script>
+</head>
+<body>
+    <div th:replace="~{home/fragments/general.html::
+         topbar('/assets_home/images/Youtube-logo.jpg','/')}"></div>
+    <div class="container-fluid" style="padding-top:50px">
+        <div class="row">
+            <div class="col-lg-8" style="padding-left:60px">
+                <div id="video-player">
+                    <!--                    <video id="my-player"  class="vjs-layout-medium	 video-js" >-->
+                    <!--                        <source  th:src="@{${video.videosPath}}" >-->
+                    <!--                    </video>-->
+                    <video id="my-player" class="video-js">
+                        <source  th:src="@{${video.videosPath}}" >
+                        <p class="vjs-no-js">
+                            To view this video please enable JavaScript, and consider upgrading to a
+                            web browser that
+
+                        </p>
+                    </video>
+                </div>
+                <h3 th:text="${video.title}"></h3>
+                <div id="channel-info" style="padding-bottom:10px">
+                    <div class="row">
+                        <div class="col">
+                            <a th:href="@{/channels/{channelName}(channelName=${video.channelName})}">
+                                <img class="rounded-circle" th:src="@{${video.photosImagePath}}" alt="avatar"
+                                     width="40" height="40">
+                            </a>
+                            <a class="text-dark font-weight-bold text-decoration-none" th:text="${video.channelName}"
+                               th:href="@{/channels/{channelName}(channelName=${video.channelName})}" ></a>
+                        </div>
+
+                    </div>
+                </div>
+                <div id="description-video" class="card" style="border:none;background-color:#fff">
+                    <div class="card-body">
+                        <div id="info-video">
+                            <p class="font-weight-bold" th:text="${#temporals.format(video.createAt, 'dd-MM-yyyy')}"></p>
+                        </div>
+                        <div id="description-container" th:utext="${video.description}">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4" style="padding-right:60px">
+
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        videojs('my-player', {
+          controls: true,
+          autoplay: false,
+          preload: 'auto',
+          responsive: true,
+            fluid: true
+        });
+    </script>
+</body>
+</html>

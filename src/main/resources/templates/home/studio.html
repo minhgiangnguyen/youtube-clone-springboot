@@ -17,7 +17,7 @@
     <div th:replace="~{home/fragments/general.html::
     topbar('/assets_home/images/Youtube-studio-logo.png','/studio/'+${id})}"></div>
 
-    <div class="container-fluid">
+    <div class="container-fluid" style="margin-top:50px">
         <div class="row" style="height:900px">
             <div class="col-2" >
                 <div th:replace="~{home/fragments/sidebarStudio.html::sidebar}"></div>
@@ -97,7 +97,7 @@
         </div>
     </div>
     <script th:inline="javascript">
-        CKEDITOR.replace('desc')
+        CKEDITOR.replace('description')
         $('#uploadVideo').modal(/*[[${modalForm}]]*/)
         $(document).ready( function () {
             new DataTable('#videoList-'+/*[[${id}]]*/,{
