@@ -7,198 +7,206 @@
 </head>
 <body>
 <div th:fragment="topbar (logoPath, url)">
-    <nav class="topbar navbar navbar-light bg-light fixed-top" >
+    <nav id="topbar" class="navbar navbar-expand-xl navbar-light bg-light fixed-top" >
         <div class="container-fluid">
-            <div id="youtube-logo" class="" >
+            <div id="youtube-logo"  >
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapseSidebar"
+                        aria-controls="collapseSidebar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
                 <a class="navbar-brand" th:href="@{${url}}" >
-                        <img th:src="@{${logoPath} }" width="100">
+                    <img th:src="@{${logoPath} }" width="100">
                 </a>
             </div>
-            <form class="form-inline my-2 my-lg-0 col-9">
-                <div class="search-bar">
-                    <input type="search" class="form-control " placeholder="Search..." name="search" style="width:500px"/>
-                    <button class="btn" type="button">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </form>
-            <div sec:authorize="isAnonymous()" th:remove="tag">
-                <div class="d-flex  justify-content-end">
-                    <a class="d-flex" th:href="@{/login}">Login</a>
-                </div>
+
+            <div id="search-bar"  >
+                <form class="form-inline">
+                    <div class="input-group">
+                        <input type="search" class="form-control " placeholder="Search..." name="search" />
+                        <div class="input-group-prepend">
+                            <button class="btn input-group-text" type="button">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div  sec:authorize="isAuthenticated()" th:remove="tag">
-                <a th:if="${#authentication.principal.userId}"
-                   th:href="@{'/studio/' + ${#authentication.principal.userId}}"
-                   class="camera-link" title="Upload">
-                    <i class="fas fa-video"></i>
-                </a>
-                <div class="dropdown ">
-<!--                <div class="dropdown  d-flex justify-content-end">-->
-                    <div class="dropdown show dropleft" >
-                        <a class="btn  dropdown-toggle" href="#" role="button"
-                           id="profileUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                           style="color: black, background-color:white, border:none">
-                            <img class="rounded-circle" th:if="${#authentication.principal.photosImagePath}"
-                                 th:src="${#authentication.principal.photosImagePath}"
-                                 alt="avatar" width="30" height="30"/>
-                        </a>
 
+                <div sec:authorize="isAnonymous()" th:remove="tag">
+                    <a class="d-flex justify-content-end" th:href="@{/login}">Login</a>
+                </div>
+                <div  sec:authorize="isAuthenticated()" th:remove="tag">
+                    <a th:if="${#authentication.principal.userId}"
+                       th:href="@{'/studio/' + ${#authentication.principal.userId}}"
+                       class="camera-link" title="Upload">
+                        <i class="fas fa-video"></i>
+                    </a>
+                    <div class="dropdown">
+                        <div class="dropdown show dropleft" >
+                            <a class="btn  dropdown-toggle" href="#" role="button"
+                               id="profileUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                               style="color: black, background-color:white, border:none">
+                                <img class="rounded-circle" th:if="${#authentication.principal.photosImagePath}"
+                                     th:src="${#authentication.principal.photosImagePath}"
+                                     alt="avatar" width="30" height="30"/>
+                            </a>
 
-
-                        <div class="dropdown-menu" aria-labelledby="profileUser" >
-                            <div class="dropdown-header">
-                                <div class="row">
-                                    <div class="col-3">
-                                        <img class="rounded-circle" th:if="${#authentication.principal.photosImagePath}"
-                                             th:src="${#authentication.principal.photosImagePath}"
-                                             alt="avatar" width="50" height="50"/>
-                                    </div>
-                                    <div class="col-9">
-                                        <h5 sec:authentication="principal.channelName"></h5>
-                                        <a th:if="${#authentication.principal.channelName}"
-                                           th:href="@{'/channel/' + ${#authentication.principal.channelName}}">
-                                            View your channel
-                                        </a>
+                            <!--Dropdown profile-->
+                            <div class="dropdown-menu" aria-labelledby="profileUser" >
+                                <div class="dropdown-header">
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <img class="rounded-circle" th:if="${#authentication.principal.photosImagePath}"
+                                                 th:src="${#authentication.principal.photosImagePath}"
+                                                 alt="avatar" width="50" height="50"/>
+                                        </div>
+                                        <div class="col-9">
+                                            <h5 sec:authentication="principal.channelName"></h5>
+                                            <a th:if="${#authentication.principal.channelName}"
+                                               th:href="@{'/channel/' + ${#authentication.principal.channelName}}">
+                                                View your channel
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/logout">Log out</a>
                             </div>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="/logout">Log out</a>
-
                         </div>
                     </div>
                 </div>
-            </div>
 
         </div>
     </nav>
 </div>
 
-<div th:fragment="sidebar">
-    <section id="side-bar-section">
-        <div>
-            <ul class="side-bar">
-                <li id="active-title">
-                    <i class="fa fa-home" aria-hidden="true"></i>
-                    <a href="#"
-                       class="side-bar-titles active">
-                        Home
-                    </a>
-                </li>
-                <li>
-                    <i class="fa fa-fire" aria-hidden="true"></i>
-                    <a href="#"
-                       class="side-bar-titles">
-                        Trending
-                    </a>
-                </li>
-                <li>
-                    <i class="fas fa-play-circle"></i>
-                    <a href="#"
-                       class="side-bar-titles">
-                        Subscriptions
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div>
-            <ul class="side-bar">
+<div th:fragment="sidebar (showSidebar)">
+    <div th:class="'collapse '+ ${showSidebar} +' navbar-collapse'" id="collapseSidebar">
+        <section id="side-bar-section">
+            <div>
+                <ul class="side-bar">
+                    <li id="active-title">
+                        <i class="fa fa-home" aria-hidden="true"></i>
+                        <a href="#"
+                           class="side-bar-titles active">
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <i class="fa fa-fire" aria-hidden="true"></i>
+                        <a href="#"
+                           class="side-bar-titles">
+                            Trending
+                        </a>
+                    </li>
+                    <li>
+                        <i class="fas fa-play-circle"></i>
+                        <a href="#"
+                           class="side-bar-titles">
+                            Subscriptions
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <ul class="side-bar">
 
-                <li>
-                    <i class="fas fa-clock"></i>
-                    <a href="#"
-                       class="side-bar-titles">
-                        Watch later
-                    </a>
-                </li>
-                <li>
-                    <i class='fas fa-thumbs-up'></i>
-                    <a href="#"
-                       class="side-bar-titles">
-                        Liked videos
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div>
-            <p class="side-bar-heading">
-                SUBSCRIPTIONS
-            </p>
-            <ul class="side-bar">
+                    <li>
+                        <i class="fas fa-clock"></i>
+                        <a href="#"
+                           class="side-bar-titles">
+                            Watch later
+                        </a>
+                    </li>
+                    <li>
+                        <i class='fas fa-thumbs-up'></i>
+                        <a href="#"
+                           class="side-bar-titles">
+                            Liked videos
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <p class="side-bar-heading">
+                    SUBSCRIPTIONS
+                </p>
+                <ul class="side-bar">
 
-                <li>
-                    <div class="channel-dp-container-1">
-                        <img src=
-                                     "https://media.geeksforgeeks.org/wp-content/uploads/20231229151313/dm9.webp"
-                             class="channel-dp-1">
-                    </div>
-                    <a href="#"
-                       class="side-bar-titles">
-                        The Puzzle World
-                    </a>
-                </li>
+                    <li>
+                        <div class="channel-dp-container-1">
+                            <img src=
+                                         "https://media.geeksforgeeks.org/wp-content/uploads/20231229151313/dm9.webp"
+                                 class="channel-dp-1">
+                        </div>
+                        <a href="#"
+                           class="side-bar-titles">
+                            The Puzzle World
+                        </a>
+                    </li>
 
-            </ul>
-        </div>
-        <div>
-            <p class="side-bar-heading">
-                MORE FROM YOUTUBE
-            </p>
-            <ul class="side-bar">
-                <li>
-                    <i class='fab fa-youtube'></i>
-                    <a href="#"
-                       class="side-bar-titles">
-                        YouTube Premium
-                    </a>
-                </li>
+                </ul>
+            </div>
+            <div>
+                <p class="side-bar-heading">
+                    MORE FROM YOUTUBE
+                </p>
+                <ul class="side-bar">
+                    <li>
+                        <i class='fab fa-youtube'></i>
+                        <a href="#"
+                           class="side-bar-titles">
+                            YouTube Premium
+                        </a>
+                    </li>
 
-                <li>
-                    <i class="fa fa-gamepad"></i>
-                    <a href="#"
-                       class="side-bar-titles">
-                        Gaming
-                    </a>
-                </li>
+                    <li>
+                        <i class="fa fa-gamepad"></i>
+                        <a href="#"
+                           class="side-bar-titles">
+                            Gaming
+                        </a>
+                    </li>
 
-            </ul>
-        </div>
-        <div>
-            <ul class="side-bar">
-                <li>
-                    <i class="fa fa-cog material-icons" aria-hidden="true"></i>
+                </ul>
+            </div>
+            <div>
+                <ul class="side-bar">
+                    <li>
+                        <i class="fa fa-cog material-icons" aria-hidden="true"></i>
 
-                    <a href="#"
-                       class="side-bar-titles">
-                        Settings
-                    </a>
-                </li>
-                <li>
-                    <i class='fas fa-flag'></i>
-                    <a href="#"
-                       class="side-bar-titles">
-                        Report history
-                    </a>
-                </li>
-                <li>
-                    <i class="fa fa-question-circle" aria-hidden="true"></i>
-                    <a href="#"
-                       class="side-bar-titles">
-                        Help
-                    </a>
-                </li>
-                <li>
-                    <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                        <a href="#"
+                           class="side-bar-titles">
+                            Settings
+                        </a>
+                    </li>
+                    <li>
+                        <i class='fas fa-flag'></i>
+                        <a href="#"
+                           class="side-bar-titles">
+                            Report history
+                        </a>
+                    </li>
+                    <li>
+                        <i class="fa fa-question-circle" aria-hidden="true"></i>
+                        <a href="#"
+                           class="side-bar-titles">
+                            Help
+                        </a>
+                    </li>
+                    <li>
+                        <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
 
-                    <a href="#"
-                       class="side-bar-titles">
-                        Send feedback
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </section>
+                        <a href="#"
+                           class="side-bar-titles">
+                            Send feedback
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
 </div>
 
 </body>

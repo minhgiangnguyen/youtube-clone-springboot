@@ -16,20 +16,21 @@
     <div th:replace="~{home/fragments/general.html::
      topbar('/assets_home/images/Youtube-logo.jpg','/')}"></div>
 
-    <div class="container-fluid position-fixed" style="top:80px">
+    <div class="container-fluid" style="margin-top:73px">
         <div class="row">
-            <div class="col-2">
-                <div th:replace="~{home/fragments/general.html::sidebar}"></div>
+            <div class="col-xl-2 col-lg-1">
+                <div th:replace="~{home/fragments/general.html::sidebar('show')}"></div>
             </div>
-            <div class="col-10" style="padding-left:35px">
-                <main class="position-fixed" style="height:100%;overflow-y: auto;">
-                    <div class="card-deck">
-                        <div class="row">
-                            <th:block th:each="video : ${allVideo}">
-                                <div class="col-lg-4 col-md-6 mb-4">
-
-                                    <div class="card" style="width: 19rem;border:none">
-                                        <img class="card-img-top" th:src="@{${video.thumbsPath}}" alt="Card image cap">
+            <div class="col-xl-10 col-lg-11" style="padding-left:35px">
+                <main>
+                    <div class="row">
+                        <th:block th:each="video : ${allVideo}">
+                            <div class="col-xl-4 col-md-6 mb-5 " >
+                                <div class="card-deck">
+                                    <div class="card" style="width: 21rem;border:none">
+                                        <a th:href="@{/videos/{videoId}(videoId=${video.videoId})}">
+                                            <img class="card-img-top" th:src="@{${video.thumbsPath}}" alt="Card image cap">
+                                        </a>
                                         <div class="card-body" style="padding: 0;padding-top: 15px;">
                                             <div class="row">
                                                 <div class="col-2" >
@@ -38,25 +39,23 @@
                                                              width="40" height="40">
                                                     </a>
                                                 </div>
-                                                <div class="col-10" >
+                                                <div class="col-10" style="line-height:0">
                                                     <a class="text-decoration-none" th:href="@{/videos/{videoId}(videoId=${video.videoId})}">
-                                                        <h5 class="card-title text-dark" th:text="${video.title}" style="font-size: large;" ></h5>
+
+                                                        <h5 class="card-title text-dark"
+                                                            th:text="${video.title}" style="font-size: large;" ></h5>
                                                     </a>
 
-                                                    <a class="card-text text-decoration-none" th:text="${video.channelName}" th:href="@{/channels/{channelName}(channelName=${video.channelName})}" ></a>
+                                                    <a class="card-text text-decoration-none text-muted" th:text="${video.channelName}" th:href="@{/channels/{channelName}(channelName=${video.channelName})}" ></a>
                                                 </div>
                                             </div>
 
                                         </div>
                                     </div>
-
                                 </div>
-                            </th:block>
-                        </div>
+                            </div>
+                        </th:block>
                     </div>
-
-
-
                 </main>
             </div>
         </div>
@@ -64,7 +63,14 @@
 
 
 
-
+    <script th:inline="javascript">
+        $(window).resize(function() {
+          var width = $(window).width();
+          if(width >= 1200){
+            $("#collapseSidebar").addClass("show");
+          }
+        });
+    </script>
 
 </body>
 </html>

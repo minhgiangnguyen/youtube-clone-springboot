@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.lang.reflect.Array;
 import java.util.List;
 
 
@@ -23,6 +24,28 @@ public class HomeController {
     @GetMapping(value = { "/","/home" })
     public String index(Model model) {
         List<VideoUserDTO> allVideo = service.getAllVideo();
+        allVideo.stream().peek(video -> {
+            String title = video.getTitle();
+         if(title.length()>58){
+             String[] arrTitle = title.split(" ");
+             StringBuilder newTitle= new StringBuilder();
+             int newLength=0;
+//             for(String word:title.split(" ")){
+//                 newTitleLength+=word.length();
+//                 if(word.)
+//                 newTitle.append(word);
+//             }
+            for(int i=0;i<arrTitle.length;i++){
+                newLength+=arrTitle[i].length();
+                if(i!=arrTitle.length-1 && arrTitle[i+1].length()+newLength>55) {
+                    newTitle.append("...");
+                    break;
+                }
+                newTitle.append(" ").append(arrTitle[i]);
+            }
+            video.setTitle(newTitle.toString());
+         }
+        }).toList();
         model.addAttribute("allVideo",allVideo);
         return "home/index";
     }
