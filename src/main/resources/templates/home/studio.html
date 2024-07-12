@@ -30,6 +30,7 @@
                         <div class="card-header" style="font-size:larger">
                             <div class="d-flex justify-content-between">
                                 <h3>Content channel</h3>
+
                                 <div th:replace="~{home/fragments/modalUpload.html::modal}"></div>
                             </div>
                         </div>
@@ -79,11 +80,21 @@
                                         <td th:text="${#temporals.format(video.createAt, 'dd-MM-yyyy HH:mm')}">Create date</td>
                                         <td th:text="${#temporals.format(video.updateAt, 'dd-MM-yyyy HH:mm')}">Update date</td>
                                         <td>
-                                            <a th:href="@{'/studio/'+${id}+'/videos/delete/'+${video.videoId} }" class="btn btn-danger"
-                                               onclick="return confirm('Do you delete this User?')">Delete</a>
-                                            <a th:href="@{'/studio/'+${id}+'/videos/edit/'+${video.videoId} }" class="btn btn-primary" >
-                                                Edit
+                                            <a th:href="@{'/studio/'+${id}+'/videos/delete/'+${video.videoId} }"
+                                               onclick="return confirm('Do you delete this User?')"
+                                           >
+                                                <i class="fa fa-trash" aria-hidden="true"  style="color:red;font-size:25px"></i>
                                             </a>
+                                            <!--Button Upload Modal -->
+                                            <button type="button"  data-toggle="modal" data-target="#editVideo"
+                                                    style="color:blue;border:none;font-size:25px">
+                                                <i class="fa fa-edit" aria-hidden="true"></i>
+                                            </button>
+<!--                                            <a th:href="@{'/studio/'+${id}+'/videos/edit/'+${video.videoId} }" class="btn btn-primary" >-->
+<!--                                                Edit-->
+<!--                                            </a>-->
+
+                                            <div th:replace="~{home/fragments/modalEditVideo.html::modal}"></div>
                                         </td>
                                     </tr>
                                 </th:block>
