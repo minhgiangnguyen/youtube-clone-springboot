@@ -24,7 +24,7 @@ public class VideoService {
     }
 
     public Video save(Video video) {
-        video.setVideoId(VideoIdGenerator.generateVideoId());
+        if(video.getVideoId()==null)video.setVideoId(VideoIdGenerator.generateVideoId());
         if(video.getCreateAt()==null) {
             video.setCreateAt(LocalDateTime.now());
         }
@@ -34,11 +34,11 @@ public class VideoService {
         return repo.save(video);
     }
 
-    public Video get(int id) {
+    public Video get(String id) {
         return repo.findById(id).get();
     }
 
-    public void delete(int id) {
+    public void delete(String id) {
         repo.deleteById(id);
     }
     public List<Video> getVideoListByUserId(int userId) {

@@ -37,7 +37,7 @@
                 </div>
                 <div  sec:authorize="isAuthenticated()" th:remove="tag">
                     <a th:if="${#authentication.principal.userId}"
-                       th:href="@{'/studio/' + ${#authentication.principal.userId}}"
+                       th:href="@{'/studio/channel/' + ${#authentication.principal.userId}}"
                        class="camera-link" title="Upload">
                         <i class="fas fa-video"></i>
                     </a>

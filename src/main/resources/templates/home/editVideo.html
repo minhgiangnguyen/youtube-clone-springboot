@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Video</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/assets_home/studio.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
+    <link href="https://vjs.zencdn.net/8.12.0/video-js.css" rel="stylesheet" />
+    <script src="https://vjs.zencdn.net/8.12.0/video.min.js"></script>
+</head>
+<body>
+    <div th:replace="~{home/fragments/general.html::
+        topbar('/assets_home/images/Youtube-studio-logo.png','/studio/channel'+${video.userId})}"></div>
+
+    <div class="container-fluid" style="margin-top:75px">
+        <div class="row" style="height:900px">
+            <div class="col-2" >
+                <div th:replace="~{home/fragments/sidebarStudio.html::sidebar}"></div>
+            </div>
+            <div class="col-10" style="padding:10px">
+                <div class="w-100">
+                    <div class="card">
+                        <div class="card-header" style="font-size:larger">
+                            <div class="d-flex justify-content-between">
+                                <h3>Video Detail</h3>
+                            </div>
+                        </div>
+                        <div id="alert" class="alert alert-success">
+                            <strong>Update success</strong>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <form action=""
+                                  th:action="@{'/studio/video/'+${video.videoId}+'/edit'}"
+                                  th:object="${video}" method="post" enctype="multipart/form-data" >
+                                <input type="hidden"  name="videoUrl" th:value="${video.videoUrl}">
+                                <input type="hidden"  name="thumbnail" th:value="${video.thumbnail}">
+                                <input type="hidden"  name="userId" th:value="${video.userId}">
+                                <input type="hidden"  name="createDate" th:value="${video.createAt}">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <div class="mb-3">
+                                            <label  class="form-label">Title</label>
+                                            <input type="text" class="form-control" th:field="*{title}"/>
+                                            <div  class="form-text" style="color:red"
+                                                  th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label  class="form-label">Upload thumbnail</label>
+                                            <input class="form-control" type="file" name="thumbFile" >
+                                            <!--                                                <div  class="form-text" style="color:red"-->
+                                            <!--                                                      th:if="${#fields.hasErrors('thumbnail')}" th:errors="*{thumbnail}"></div>-->
+                                            <div class="form-text" style="color:red" th:text="${errorThumb}"></div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label  class="form-label">Description</label>
+                                            <textarea  class="form-control"  th:field="*{description}" ></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-5">
+                                        <div class="mb-3">
+                                            <video id="my-player" class="video-js" >
+                                                <source  th:src="@{${video.videosPath}}" >
+                                            </video>
+
+                                        </div>
+                                        <div class="mb-3 px-3 ">
+                                            <p class="m-0">Link video</p>
+                                            <a th:href="@{'/videos/'+${video.videoId}}"
+                                               th:text="@{${baseUrl} +'/videos/'+${video.videoId}}" target="_blank"></a>
+                                        </div>
+                                        <div class="mb-3">
+                                            <img th:src="@{${video.thumbsPath}}" width="300">
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        CKEDITOR.replace('description')
+<!--        $('#uploadVideo').modal(/*[[${modalForm}]]*/)-->
+        if(/*[[${alert}]]*/==null){
+            $(".alert").alert();
+        }else{
+            $(".alert").alert('close');
+        }
+        $(".alert").alert(/*[[${alert}]]*/==''?'':"close")
+        videojs('my-player', {
+                  controls: true,
+                  autoplay: false,
+                  preload: 'auto',
+                  responsive: true,
+                  fluid: true
+                });
+    </script>
+</body>
+</html>
