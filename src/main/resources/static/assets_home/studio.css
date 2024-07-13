@@ -1,31 +1,38 @@
-.topbar{
-    padding-top:0px;
-    padding-bottom:0px
+#topbar{
+    padding-top:10px;
+    padding-bottom:10px
 }
 #youtube-logo{
-    margin-left:20px;
+    margin-left:0px;
 }
- .search-bar {
+#youtube-logo button{
+    border:none;
+}
+#youtube-logo a{
+    margin-left:10px;
+}
+ #search-bar {
     position: relative;
-    max-width: 600px;
+   /* max-width: 600px;*/
     margin: auto;
  }
-.search-bar input {
+#search-bar input {
     /*max-width:600px;*/
     height:40px;
-    border-radius: 10px;
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
     padding-right: 40px;
 }
-.search-bar button {
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    border: none;
-    background: none;
+#search-bar button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
 
 }
-.search-bar button:hover {
+#search-bar button:hover {
     background-color: #e8e8e8;
 }
 .dropdown-menu{
@@ -47,4 +54,11 @@
 }
 .camera-link:hover {
     background-color: #e8e8e8;
+}
+
+#video-detail-container {
+    margin-top: 73px;
+    padding: 0;
+    margin-left: 40px;
+    margin-right: 40px;
 }

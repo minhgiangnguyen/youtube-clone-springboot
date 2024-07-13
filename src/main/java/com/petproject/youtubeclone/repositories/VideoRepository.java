@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface VideoRepository  extends JpaRepository<Video,Integer> {
+public interface VideoRepository  extends JpaRepository<Video,String> {
 
     @Query("SELECT v FROM Video v WHERE v.userId = ?1")
     public List<Video> getVideoListByUserId(int userId);

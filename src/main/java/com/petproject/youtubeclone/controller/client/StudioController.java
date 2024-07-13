@@ -4,6 +4,7 @@ import com.petproject.youtubeclone.models.CustomUserDetails;
 import com.petproject.youtubeclone.models.Video;
 import com.petproject.youtubeclone.services.VideoService;
 import com.petproject.youtubeclone.utils.FileUploadUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -15,8 +16,11 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,7 +29,7 @@ public class StudioController {
     @Autowired
     private VideoService service;
 
-    @GetMapping(value = {"studio"})
+    @GetMapping(value = {"studio","studio/","studio/channel","studio/channel/"})
     public String studio(Model model) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -34,20 +38,32 @@ public class StudioController {
         }
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         int id = userDetails.getUserId();
-        return "redirect:/studio/"+id;
+        return "redirect:/studio/channel/"+id;
     }
-    @GetMapping(value = {"studio/{id}"})
+    @GetMapping(value = {"studio/channel/{id}"})
     public String channelStudio(@PathVariable("id") int id,Model model) {
         Video video = new Video();
         List<Video> videoList = service.getVideoListByUserId(id);
         model.addAttribute("id",id);
-        model.addAttribute("video",video);
+        model.addAttribute("newVideo",video);
         model.addAttribute("videoList",videoList);
         model.addAttribute("modalForm","hide");
         return "home/studio";
     }
+    @GetMapping(value = {"studio/video/{id}/edit"})
+    public String editVideo(@PathVariable("id") String id,Model model, HttpServletRequest request) {
+        String baseUrl = UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString())
+                .replacePath(null)
+                .build()
+                .toUriString();
+        Video video = service.get(id);
+        model.addAttribute("video",video);
+        model.addAttribute("baseUrl",baseUrl);
+        return "home/editVideo";
+    }
 
-    @PostMapping("/studio/{id}/upload-video")
+
+    @PostMapping("/studio/channel/{id}/videos/upload")
     public String submitForm(@PathVariable("id") int id
             , @Valid @ModelAttribute("video") Video video ,BindingResult bindingResult
             , @RequestParam("videoFile") MultipartFile videoFile
@@ -114,8 +130,44 @@ public class StudioController {
 
 
         model.addAttribute("modalForm","hide");
-        return "redirect:/studio/"+id;
+        return "redirect:/studio/channel"+id;
 
 
+    }@PostMapping("/studio/video/{videoId}/edit")
+    public String editForm(@PathVariable("videoId") String videoId
+            , @Valid @ModelAttribute("video") Video video ,BindingResult bindingResult
+            ,@RequestParam("thumbFile") MultipartFile thumbFile, String createDate
+            ,Model model,HttpServletRequest request) throws IOException {
+        System.out.println(createDate);
+        String[] imageType=new String[]{"image/jpeg","image/png","image/jpg"};
+        if(!thumbFile.isEmpty()){
+            if(!Arrays.asList(imageType).contains(thumbFile.getContentType())) {
+                model.addAttribute("errorThumb","Invalid image type. Allowed types are .jpg, .jpeg, .png");
+                model.addAttribute("modalForm","show");
+                return "home/studio";
+            }
+            if(thumbFile.getSize()> 1024 * 1024 * 10){
+                model.addAttribute("err","Video not upload more than 10 mb");
+                model.addAttribute("modalForm","show");
+                return "home/studio";
+            }
+            String thumbFileName = StringUtils.cleanPath(thumbFile.getOriginalFilename());
+            String uploadDir = "user-videos/" + video.getUserId();
+            video.setThumbnail(thumbFileName);
+        }
+        video.setCreateAt(LocalDateTime.parse(createDate));
+
+        service.save(video);
+
+
+//        return "redirect:/studio/channel/"+video.getUserId();
+        String baseUrl = UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString())
+                .replacePath(null)
+                .build()
+                .toUriString();
+        model.addAttribute("video",video);
+        model.addAttribute("baseUrl",baseUrl);
+        model.addAttribute("alert"," ");
+        return "home/editVideo";
     }
 }

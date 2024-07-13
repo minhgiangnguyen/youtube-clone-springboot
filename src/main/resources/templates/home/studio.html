@@ -15,9 +15,9 @@
 </head>
 <body>
     <div th:replace="~{home/fragments/general.html::
-    topbar('/assets_home/images/Youtube-studio-logo.png','/studio/'+${id})}"></div>
+    topbar('/assets_home/images/Youtube-studio-logo.png','/studio/channel'+${id})}"></div>
 
-    <div class="container-fluid" style="margin-top:50px">
+    <div class="container-fluid" style="margin-top:75px">
         <div class="row" style="height:900px">
             <div class="col-2" >
                 <div th:replace="~{home/fragments/sidebarStudio.html::sidebar}"></div>
@@ -47,7 +47,7 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <th:block th:each="video : ${videoList}">
+                                <th:block th:each="video  : ${videoList}">
                                     <tr >
                                         <td th:text="${video.title}" style="width:35%">Title</td>
                                         <td >
@@ -80,21 +80,13 @@
                                         <td th:text="${#temporals.format(video.createAt, 'dd-MM-yyyy HH:mm')}">Create date</td>
                                         <td th:text="${#temporals.format(video.updateAt, 'dd-MM-yyyy HH:mm')}">Update date</td>
                                         <td>
-                                            <a th:href="@{'/studio/'+${id}+'/videos/delete/'+${video.videoId} }"
-                                               onclick="return confirm('Do you delete this User?')"
-                                           >
+                                            <a th:href="@{'/studio/video/'+${video.videoId}+'delete' }"
+                                               onclick="return confirm('Do you delete this User?')">
                                                 <i class="fa fa-trash" aria-hidden="true"  style="color:red;font-size:25px"></i>
                                             </a>
-                                            <!--Button Upload Modal -->
-                                            <button type="button"  data-toggle="modal" data-target="#editVideo"
-                                                    style="color:blue;border:none;font-size:25px">
-                                                <i class="fa fa-edit" aria-hidden="true"></i>
-                                            </button>
-<!--                                            <a th:href="@{'/studio/'+${id}+'/videos/edit/'+${video.videoId} }" class="btn btn-primary" >-->
-<!--                                                Edit-->
-<!--                                            </a>-->
-
-                                            <div th:replace="~{home/fragments/modalEditVideo.html::modal}"></div>
+                                            <a th:href="@{'/studio/video/'+${video.videoId}+'/edit' }">
+                                                <i class="fa fa-edit" aria-hidden="true" style="color:blue;font-size:25px"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 </th:block>
