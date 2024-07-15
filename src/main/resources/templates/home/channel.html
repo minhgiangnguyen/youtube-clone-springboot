@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Youtube channel</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/assets_home/home.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Add the slick-theme.css if you want default styling -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <!-- Add the slick-theme.css if you want default styling -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+</head>
+<body>
+<div th:replace="~{home/fragments/general.html::
+     topbar('/assets_home/images/Youtube-logo.jpg','/')}"></div>
+
+<div class="container-fluid" style="margin-top:73px">
+    <div class="row">
+        <div class="col-xl-2 col-lg-1">
+            <div th:replace="~{home/fragments/general.html::sidebar('show')}"></div>
+        </div>
+        <div class="col-xl-10 col-lg-11 mt-5" style="padding-left:50px">
+            <main>
+                <div class="row mb-3">
+                    <div class="col-2 p-0 pl-4">
+                        <img class="rounded-circle" th:src="@{${channel.photosImagePath}}"
+                             width="150" height="150" style="object-fit: cover;">
+                    </div>
+                    <div class="col-10 p-0">
+                        <h2 th:text="${channel.channelName}"></h2>
+                        <p>
+                            <span th:text="'@'+${channel.channelName}"></span>
+                            <span class="align-text-bottom">.</span>
+                            <span th:text="${channel.totalVideo}+' video'"></span>
+                        </p>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Video</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="mb-3">
+                    <div class="row">
+                        <h5>Video</h5>
+                    </div>
+
+                    <div class="card-deck " style="width:700px">
+                        <th:block th:each="video : ${videoList}">
+                            <div class="card ml-1 mr-1" style="width:11rem;border:none">
+                                <a th:href="@{/videos/{videoId}(videoId=${video.videoId})}">
+                                    <img class="card-img-top" th:src="@{${video.thumbsPath}}" alt="Card image cap" >
+                                </a>
+                                <div class="card-body" style="padding: 0;padding-top: 15px;">
+                                    <div class="row">
+
+                                        <div class="col-10" style="line-height:0">
+                                            <a class="text-decoration-none" th:href="@{/videos/{videoId}(videoId=${video.videoId})}">
+
+                                                <h6 class="card-title text-dark"
+                                                    th:text="${video.title}" style="font-size: large;" ></h6>
+                                            </a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+
+
+<script th:inline="javascript">
+    $(window).resize(function() {
+      var width = $(window).width();
+      if(width >= 1200){
+        $("#collapseSidebar").addClass("show");
+      }
+    });
+
+    $('.card-deck').slick({
+      infinite: false,
+      variableWidth: false,
+      slidesToShow: 4,
+      slidesToScroll: 4,
+      prevArrow: '<button class="slide-arrow prev-arrow"></button>',
+      nextArrow: '<button class="slide-arrow next-arrow"></button>'
+    })
+<!--    .on('setPosition', function (event, slick) {-->
+<!--        slick.$slides.css('height', slick.$slideTrack.height() + 'px');-->
+<!--    });-->
+</script>
+
+</body>
+</html>
