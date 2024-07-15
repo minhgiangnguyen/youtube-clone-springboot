@@ -47,7 +47,6 @@ public class WebConfigSecurity {
                         .requestMatchers("/"
                                         ,"/403"
                                         ,"/home"
-                                        ,"/channel/**"
                                         ,"/register"
                                         ,"/webjars/**"
                                         ,"/assets_home/**"

@@ -2,6 +2,7 @@ package com.petproject.youtubeclone.controller.client;
 
 import com.petproject.youtubeclone.models.CustomUserDetails;
 import com.petproject.youtubeclone.models.Video;
+import com.petproject.youtubeclone.services.UserService;
 import com.petproject.youtubeclone.services.VideoService;
 import com.petproject.youtubeclone.utils.FileUploadUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,7 +28,9 @@ import java.util.List;
 @Controller
 public class StudioController {
     @Autowired
-    private VideoService service;
+    private VideoService videoService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping(value = {"studio","studio/","studio/channel","studio/channel/"})
     public String studio(Model model) {
@@ -41,9 +44,16 @@ public class StudioController {
         return "redirect:/studio/channel/"+id;
     }
     @GetMapping(value = {"studio/channel/{id}"})
-    public String channelStudio(@PathVariable("id") int id,Model model) {
+    public String channelStudio(@PathVariable("id") String id,Model model) {
+        if(!id.matches("\\d+")) return "home/404" ;
+        int idStudio = Integer.parseInt(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        int userId = userDetails.getUserId();
+        if(userId != idStudio) return "home/404";
+
         Video video = new Video();
-        List<Video> videoList = service.getVideoListByUserId(id);
+        List<Video> videoList = videoService.getVideoListByUserId(idStudio);
         model.addAttribute("id",id);
         model.addAttribute("newVideo",video);
         model.addAttribute("videoList",videoList);
@@ -56,7 +66,7 @@ public class StudioController {
                 .replacePath(null)
                 .build()
                 .toUriString();
-        Video video = service.get(id);
+        Video video = videoService.get(id);
         model.addAttribute("video",video);
         model.addAttribute("baseUrl",baseUrl);
         return "home/editVideo";
@@ -121,7 +131,7 @@ public class StudioController {
         video.setVideoUrl(videoFileName);
         video.setThumbnail(thumbFileName);
 
-        Video savedVideo = service.save(video);
+        Video savedVideo = videoService.save(video);
         String uploadDir = "user-videos/" + savedVideo.getUserId();
 
         FileUploadUtil.saveFile(uploadDir,videoFileName,videoFile);
@@ -157,7 +167,7 @@ public class StudioController {
         }
         video.setCreateAt(LocalDateTime.parse(createDate));
 
-        service.save(video);
+        videoService.save(video);
 
 
 //        return "redirect:/studio/channel/"+video.getUserId();
@@ -169,5 +179,11 @@ public class StudioController {
         model.addAttribute("baseUrl",baseUrl);
         model.addAttribute("alert"," ");
         return "home/editVideo";
+    }
+
+    @GetMapping(value = {"studio/channel/{id}/{url}"})
+    public String catch404(@PathVariable("id") String id,@PathVariable("url") String url) {
+
+        return "home/404";
     }
 }
