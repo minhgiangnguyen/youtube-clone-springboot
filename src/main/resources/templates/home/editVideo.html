@@ -94,13 +94,12 @@
 
     <script th:inline="javascript">
         CKEDITOR.replace('description')
-<!--        $('#uploadVideo').modal(/*[[${modalForm}]]*/)-->
+
         if(/*[[${alert}]]*/==null){
             $(".alert").alert();
         }else{
             $(".alert").alert('close');
         }
-        $(".alert").alert(/*[[${alert}]]*/==''?'':"close")
         videojs('my-player', {
                   controls: true,
                   autoplay: false,

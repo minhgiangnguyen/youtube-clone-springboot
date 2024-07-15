@@ -1,7 +1,9 @@
 package com.petproject.youtubeclone;
 
 import com.petproject.youtubeclone.models.Video;
+import com.petproject.youtubeclone.models.dto.VideoChannelDTO;
 import com.petproject.youtubeclone.models.dto.VideoUserDTO;
+import com.petproject.youtubeclone.models.projections.VideoChannelProjection;
 import com.petproject.youtubeclone.models.projections.VideoDetailUserProjection;
 import com.petproject.youtubeclone.models.projections.VideoUserProjection;
 import com.petproject.youtubeclone.repositories.VideoRepository;
@@ -88,6 +90,16 @@ public class VideoRepositoryTests {
         assertThat(videoProjection).isNotNull();
         System.out.println(videoProjection.getDescription());
 
+    }
+    @Test
+    public void testGetVideoListByChannelName() {
+        String channelName = "minhgiangnguyen";
+        List<VideoChannelDTO> videos = repo.getVideosByChannelName(channelName);
+
+        assertThat(videos).isNotNull();
+//        for (VideoChannelDTO v : videos){
+//            System.out.println(v.getThumbsPath());
+//        }
 
     }
 

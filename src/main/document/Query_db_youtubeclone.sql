@@ -24,7 +24,16 @@ CREATE TABLE Videos (
 		
 );
 ALTER TABLE Videos
-ALTER COLUMN video_id TYPE VARCHAR(16)
+ALTER COLUMN video_id TYPE VARCHAR(16);
+
+-- Get channel with number video of channel
+SELECT u.channel_name, Count(u.user_id)
+FROM  Users u
+LEFT JOIN  Videos v ON u.user_id= v.user_id
+WHERE u.user_id = 32
+GROUP BY u.channel_name
+
+
 
 
 

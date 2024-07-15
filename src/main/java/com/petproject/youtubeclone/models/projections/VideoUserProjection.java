@@ -1,5 +1,7 @@
 package com.petproject.youtubeclone.models.projections;
 
+import java.time.LocalDateTime;
+
 public interface VideoUserProjection {
 
     String getVideoId();
