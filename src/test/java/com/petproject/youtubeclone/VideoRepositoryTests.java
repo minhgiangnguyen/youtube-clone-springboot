@@ -94,12 +94,12 @@ public class VideoRepositoryTests {
     @Test
     public void testGetVideoListByChannelName() {
         String channelName = "minhgiangnguyen";
-        List<VideoChannelDTO> videos = repo.getVideosByChannelName(channelName);
+        List<VideoChannelProjection> videos = repo.getVideosByChannelNameLatest(channelName);
 
         assertThat(videos).isNotNull();
-//        for (VideoChannelDTO v : videos){
-//            System.out.println(v.getThumbsPath());
-//        }
+        for (VideoChannelProjection v : videos){
+            System.out.println(v.toString());
+        }
 
     }
 

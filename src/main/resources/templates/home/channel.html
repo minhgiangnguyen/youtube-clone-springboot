@@ -3,7 +3,8 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
-    <title>Youtube channel</title>
+    <title th:text="${channel.channelName}"></title>
+    <link rel="icon" type="image/x-icon" th:href="@{/assets_home/images/youtube-favicon.ico}">
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
@@ -25,7 +26,7 @@
         <div class="col-xl-2 col-lg-1">
             <div th:replace="~{home/fragments/general.html::sidebar('show')}"></div>
         </div>
-        <div class="col-xl-10 col-lg-11 mt-5" style="padding-left:50px">
+        <div class="col-xl-10 col-lg-11 mt-5 px-5">
             <main>
                 <div class="row mb-3">
                     <div class="col-2 p-0 pl-4">
@@ -44,41 +45,22 @@
                 <div class="row mb-3">
                     <ul class="nav nav-tabs">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">Home</a>
+                            <a th:class="'nav-link '+${page=='home'?'active':''}"
+                               th:href="@{/{channelName}/home(channelName=${channel.channelName})}">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Video</a>
+                            <a th:class="'nav-link '+${page=='videos'?'active':''}"
+                               th:href="@{/{channelName}/videos(channelName=${channel.channelName})}">Video</a>
                         </li>
                     </ul>
                 </div>
-                <div class="mb-3">
-                    <div class="row">
-                        <h5>Video</h5>
-                    </div>
+                <!-- Video list  -->
+                <div th:include="home/fragments/channelFragment.html :: home(${videoList})"
+                     th:if="${page=='home'}"></div>
+                <div th:include="home/fragments/channelFragment.html :: videos(${latestVideos})"
+                     th:if="${page=='videos'}"></div>
+                <!--End Video list  -->
 
-                    <div class="card-deck " style="width:700px">
-                        <th:block th:each="video : ${videoList}">
-                            <div class="card ml-1 mr-1" style="width:11rem;border:none">
-                                <a th:href="@{/videos/{videoId}(videoId=${video.videoId})}">
-                                    <img class="card-img-top" th:src="@{${video.thumbsPath}}" alt="Card image cap" >
-                                </a>
-                                <div class="card-body" style="padding: 0;padding-top: 15px;">
-                                    <div class="row">
-
-                                        <div class="col-10" style="line-height:0">
-                                            <a class="text-decoration-none" th:href="@{/videos/{videoId}(videoId=${video.videoId})}">
-
-                                                <h6 class="card-title text-dark"
-                                                    th:text="${video.title}" style="font-size: large;" ></h6>
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </th:block>
-                    </div>
-                </div>
             </main>
         </div>
     </div>
@@ -86,18 +68,25 @@
 
 
 <script th:inline="javascript">
+    var width = $(window).width();
+        if(width >= 1200)
+            $("#collapseSidebar").addClass("show");
+        else
+            $("#collapseSidebar").removeClass("show");
     $(window).resize(function() {
-      var width = $(window).width();
-      if(width >= 1200){
-        $("#collapseSidebar").addClass("show");
-      }
+        var widthResize = $(window).width();
+          if(widthResize >= 1200){
+            $("#collapseSidebar").addClass("show");
+          }else{
+            $("#collapseSidebar").removeClass("show");
+          }
     });
 
-    $('.card-deck').slick({
+    $('#slickVideos').slick({
       infinite: false,
       variableWidth: false,
-      slidesToShow: 4,
-      slidesToScroll: 4,
+      slidesToShow: 5,
+      slidesToScroll: 5,
       prevArrow: '<button class="slide-arrow prev-arrow"></button>',
       nextArrow: '<button class="slide-arrow next-arrow"></button>'
     })

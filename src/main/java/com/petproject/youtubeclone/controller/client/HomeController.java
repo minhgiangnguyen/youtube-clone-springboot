@@ -23,16 +23,16 @@ public class HomeController {
     @Autowired
     private VideoService service;
 
-    @GetMapping("/{url}")
-    public String catch404(@PathVariable("url")String url){
-        String[] urlArr = new String[]{"home","register","webjars","assets_home","assets_admin",
-        "user-videos","user-photos","videos","channels"};
+//    @GetMapping("/{url}")
+//    public String catch404(@PathVariable("url")String url){
+//        String[] urlArr = new String[]{"home","register","webjars","assets_home","assets_admin",
+//        "user-videos","user-photos","videos","channels"};
+//
+//        if(!Arrays.asList(urlArr).contains(url)) return "home/404";
+//        return "redirect:/"+url;
+//    }
 
-        if(!Arrays.asList(urlArr).contains(url)) return "home/404";
-        return "redirect:/"+url;
-    }
-
-    @GetMapping(value = { "/","/home" })
+    @GetMapping(value = { "/" })
     public String index(Model model) {
         List<VideoUserDTO> allVideo = service.getAllVideo();
         allVideo.stream().peek(video -> {

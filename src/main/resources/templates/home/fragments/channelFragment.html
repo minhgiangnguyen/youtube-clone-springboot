@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+
+</head>
+<body>
+    <div th:fragment="home(videoList)">
+        <div class="mb-3">
+            <div class="row">
+                <h5>Video</h5>
+            </div>
+            <div id="slickVideos" class="card-deck " style="">
+                <th:block th:each="video : ${videoList}">
+                    <div class="card ml-1 mr-1" style="width:11rem;border:none">
+                        <a th:href="@{/watch?v={videoId}(videoId=${video.videoId})}">
+                            <img class="card-img-top" th:src="@{${video.thumbsPath}}" alt="Card image cap" >
+                        </a>
+                        <div class="card-body" style="padding: 0;padding-top: 15px;">
+                            <div class="row">
+
+                                <div class="col-10" style="line-height:0">
+                                    <a class="text-decoration-none" th:href="@{/watch?v={videoId}(videoId=${video.videoId})}">
+
+                                        <h6 class="card-title text-dark"
+                                            th:text="${video.title}" style="font-size: large;" ></h6>
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </div>
+
+    <div th:fragment="videos(latestVideos)">
+        <div class="mb-3 ml-2">
+            <div class="row">
+                <button class="btn btn-dark mx-2">Latest</button>
+                <button class="btn btn-dark mx-2">Oldest</button>
+            </div>
+        </div>
+        <div class="mb-3">
+            <div class="row">
+                <div class="card-deck">
+                    <th:block th:each="video : ${latestVideos}">
+                        <div class="col-xl-3 col-lg-3">
+                            <div class="card" style="width:16rem;border:none">
+                                <a th:href="@{/watch?v={videoId}(videoId=${video.videoId})}">
+                                    <img class="card-img-top" th:src="@{${video.thumbsPath}}" alt="Card image cap" >
+                                </a>
+                                <div class="card-body px-0 pt-2 ">
+
+                                            <a class="text-decoration-none" th:href="@{/watch?v={videoId}(videoId=${video.videoId})}">
+
+                                                <h6 class="card-title "
+                                                    th:text="${video.title}"
+                                                    style="font-size: 0.9rem;line-height: 1.3rem;font-weight: 500;color:#0f0f0f" ></h6>
+                                            </a>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </th:block>
+                </div>
+            </div>
+        </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
