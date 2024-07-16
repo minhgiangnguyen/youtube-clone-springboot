@@ -20,37 +20,55 @@ public class ChannelController {
     @Autowired
     private UserService userService;
 
-    @GetMapping(value = { "/channels/{channelName}" })
-    public String channel(@PathVariable("channelName") String channelName, Model model){
+    static String subTitle(String title,int numSub) {
+        String[] arrTitle = title.split(" ");
+        StringBuilder newTitle= new StringBuilder();
+        int newLength=0;
+        for(int i=0;i<arrTitle.length;i++){
+            newLength+=arrTitle[i].length();
+            if(i!=arrTitle.length-1 && arrTitle[i+1].length()+newLength>numSub-3) {
+                newTitle.append("...");
+                break;
+            }
+            newTitle.append(" ").append(arrTitle[i]);
+        }
+        return newTitle.toString();
+    }
+
+
+    @GetMapping(value = { "/{channelName}","/{channelName}/home" })
+    public String homeChannel(@PathVariable("channelName") String channelName, Model model){
         ChannelProjection channel = userService.getChannelByName(channelName);
-        List<VideoChannelDTO> videoList = videoService.getVideosByChannelName(channelName);
+        List<VideoChannelDTO> videoList = videoService.getVideosByChannelNameLatest(channelName);
         videoList.stream().peek(video -> {
             String title = video.getTitle();
-            if(title.length()>58){
-                String[] arrTitle = title.split(" ");
-                StringBuilder newTitle= new StringBuilder();
-                int newLength=0;
-                for(int i=0;i<arrTitle.length;i++){
-                    newLength+=arrTitle[i].length();
-                    if(i!=arrTitle.length-1 && arrTitle[i+1].length()+newLength>55) {
-                        newTitle.append("...");
-                        break;
-                    }
-                    newTitle.append(" ").append(arrTitle[i]);
-                }
-                video.setTitle(newTitle.toString());
+            if(title.length()>65){
+                String newTitle = ChannelController.subTitle(title,65);
+                video.setTitle(newTitle);
             }
         }).toList();
         model.addAttribute("channel",channel);
         model.addAttribute("videoList",videoList);
+        model.addAttribute("page","home");
         return "home/channel";
     }
-//    @GetMapping(value = { "/channels/{channelName}/videos" })
-//    public String channelVideos(@PathVariable("channelName") String channelName, Model model){
-//        ChannelProjection channel = userService.getChannelByName(channelName);
-//        List<VideoChannelProjection> videoList = videoService.getVideosByChannelName(channelName);
-//        model.addAttribute("channel",channel);
-//        model.addAttribute("videoList",videoList);
-//        return "home/channel";
-//    }
+
+    @GetMapping(value = { "/{channelName}/videos" })
+    public String videosChannel(@PathVariable("channelName") String channelName, Model model){
+        ChannelProjection channel = userService.getChannelByName(channelName);
+        List<VideoChannelDTO> latestVideos = videoService.getVideosByChannelNameLatest(channelName);
+        latestVideos.stream().peek(video -> {
+            String title = video.getTitle();
+            if(title.length()>65){
+                String newTitle = ChannelController.subTitle(title,65);
+                video.setTitle(newTitle);
+            }
+        }).toList();
+        model.addAttribute("channel",channel);
+        model.addAttribute("latestVideos",latestVideos);
+        model.addAttribute("page","videos");
+        return "home/channel";
+    }
+
+
 }

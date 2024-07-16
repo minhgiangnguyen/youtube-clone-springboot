@@ -44,16 +44,14 @@ public class WebConfigSecurity {
 
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->auth
-                        .requestMatchers("/"
+                        .requestMatchers("/**"
                                         ,"/403"
-                                        ,"/home"
                                         ,"/register"
                                         ,"/webjars/**"
                                         ,"/assets_home/**"
                                         ,"/user-videos/**"
                                         ,"/user-photos/**"
-                                        ,"/videos/**"
-                                        ,"/channels/**")
+                                        ,"/watch**")
                         .permitAll()
                         .requestMatchers("/studio/**","/studio").hasRole("USER")
                         .requestMatchers("/admin/**","/admin*").hasRole("ADMIN")

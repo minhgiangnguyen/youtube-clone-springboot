@@ -7,6 +7,7 @@ import com.petproject.youtubeclone.models.projections.VideoDetailUserProjection;
 import com.petproject.youtubeclone.models.projections.VideoUserProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -45,8 +46,19 @@ public interface VideoRepository  extends JpaRepository<Video,String> {
             +" INNER JOIN Users u"
             + " ON v.user_id = u.user_id "
             + " Where u.channel_name = ?1"
+            +" ORDER BY v.create_at  DESC"
             , nativeQuery = true)
-    List<VideoChannelProjection> getVideosByChannelName(String channelName);
+    List<VideoChannelProjection> getVideosByChannelNameLatest(String channelName);
+
+    @Query(value = "SELECT v.video_id as videoId, v.title as title"
+            + ",v.thumbnail as thumbnail,u.user_id as userId "
+            + " from Videos v"
+            +" INNER JOIN Users u"
+            + " ON v.user_id = u.user_id "
+            + " Where u.channel_name = ?1"
+            +" ORDER BY v.create_at  ASC"
+            , nativeQuery = true)
+    List<VideoChannelProjection> getVideosByChannelNameOldest(String channelName);
 
 
 

@@ -57,8 +57,8 @@ public class VideoService {
         return repo.getVideoByIdWithUserIDChannel(videoId);
     }
 
-    public List<VideoChannelDTO> getVideosByChannelName(String channelName) {
-        List<VideoChannelProjection> videosProjection = repo.getVideosByChannelName(channelName);
+    public List<VideoChannelDTO> getVideosByChannelNameLatest(String channelName) {
+        List<VideoChannelProjection> videosProjection = repo.getVideosByChannelNameLatest(channelName);
         return videosProjection.stream().map(pro ->
                 new VideoChannelDTO(pro.getVideoId(), pro.getTitle()
                         ,pro.getThumbnail(),pro.getUserId())
