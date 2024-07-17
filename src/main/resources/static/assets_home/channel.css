@@ -1,0 +1,42 @@
+.slide-arrow{
+  position: absolute;
+  top: 30%;
+  margin-top: -15px;
+}
+.prev-arrow{
+  left: -25px;
+  z-index: 1;
+
+}
+.next-arrow{
+  right: -25px;
+  z-index: 1;
+}
+.circle-button {
+/*    display: flex;
+    align-items: center;
+    justify-content: center;*/
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: white;
+
+    border: none;
+    cursor: pointer;
+}
+
+.circle-button .fas {
+    font-size: 24px;
+    color: black;
+}
+
+.slick-disabled{
+    display: none !important;
+}
+
+/*  width: 0;
+    height: 0;
+    border-left: 0 solid transparent;
+    border-right: 15px solid #113463;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;*/

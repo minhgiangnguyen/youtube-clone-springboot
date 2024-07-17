@@ -65,4 +65,12 @@ public class VideoService {
         ).toList();
 
     }
+    public List<VideoChannelDTO> getVideosByChannelNameOldest(String channelName) {
+        List<VideoChannelProjection> videosProjection = repo.getVideosByChannelNameOldest(channelName);
+        return videosProjection.stream().map(pro ->
+                new VideoChannelDTO(pro.getVideoId(), pro.getTitle()
+                        ,pro.getThumbnail(),pro.getUserId())
+        ).toList();
+
+    }
 }
