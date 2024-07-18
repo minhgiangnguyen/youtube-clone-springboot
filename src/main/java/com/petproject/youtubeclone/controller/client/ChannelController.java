@@ -83,7 +83,6 @@ public class ChannelController {
     @PostMapping(value = { "/{channelName}/videos" })
     public String sortVideos(@PathVariable("channelName") String channelName
             ,@RequestParam("s") String sortType, Model model){
-//        System.out.println(sortType);
 //        ChannelProjection channel = userService.getChannelByName(channelName);
         List<VideoChannelDTO> videoList =sortType.equals("latest")
                 ?videoService.getVideosByChannelNameLatest(channelName)
