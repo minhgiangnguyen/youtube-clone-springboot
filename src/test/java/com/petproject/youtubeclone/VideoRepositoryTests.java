@@ -1,7 +1,6 @@
 package com.petproject.youtubeclone;
 
 import com.petproject.youtubeclone.models.Video;
-import com.petproject.youtubeclone.models.dto.VideoChannelDTO;
 import com.petproject.youtubeclone.models.dto.VideoUserDTO;
 import com.petproject.youtubeclone.models.projections.VideoChannelProjection;
 import com.petproject.youtubeclone.models.projections.VideoDetailUserProjection;
@@ -13,11 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.data.domain.Limit;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Rollback;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -69,8 +71,13 @@ public class VideoRepositoryTests {
     }
 
     @Test
-    public void testAllVideoSpecifyColumn() {
-        List<VideoUserProjection> allVideoProjection = repo.getAllVideoSpecifyColumn();
+    public void testAllVideo() {
+        int pageSize = 2;
+        int pageNum = 3;
+        Pageable pageable = PageRequest.of(1, pageSize);
+
+//        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<VideoUserProjection> allVideoProjection = repo.getAllVideo(pageable);
 
         assertThat(allVideoProjection).isNotEmpty();
         List<VideoUserDTO> allVideo = allVideoProjection.stream().map(pro ->
@@ -78,7 +85,7 @@ public class VideoRepositoryTests {
                 ,pro.getUserId(),pro.getChannelName(),pro.getPhotoUrl(),pro.getThumbnail())
         ).toList();
         for(VideoUserDTO v: allVideo){
-            System.out.println(v.getThumbsPath());
+            System.out.println(v.getTitle());
         }
     }
 

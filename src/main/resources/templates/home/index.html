@@ -24,9 +24,9 @@
             </div>
             <div class="col-xl-10 col-lg-11 px-5" >
                 <main>
-                    <div class="row">
+                    <div id="allVideo" class="row">
                         <div class="card-deck">
-                            <th:block th:each="video : ${allVideo}">
+                            <th:block th:each="video : ${pageVideos}">
                                 <div class="col-xl-4 col-lg-6 col-md-6 mb-5 px-0" >
                                     <div class="card" style="width: 21.5rem;border:none">
                                         <a th:href="@{/watch?v={videoId}(videoId=${video.videoId})}">
@@ -57,6 +57,9 @@
                             </th:block>
                         </div>
                     </div>
+<!--                    <div id="loaderContent" class="mt-3 d-flex justify-content-center">-->
+<!--                        <div class="loader"></div>-->
+<!--                    </div>-->
                 </main>
             </div>
         </div>
@@ -65,21 +68,9 @@
 
 
     <script th:inline="javascript">
-        var width = $(window).width();
-        if(width >= 1200)
-            $("#collapseSidebar").addClass("show");
-        else
-            $("#collapseSidebar").removeClass("show");
-        $(window).resize(function() {
-        var widthResize = $(window).width();
-          if(widthResize >= 1200){
-            $("#collapseSidebar").addClass("show");
-          }else{
-            $("#collapseSidebar").removeClass("show");
-          }
-        });
-
+        var baseUrl = /*[[${baseUrl}]]*/;
+        var totalPage = /*[[${totalPage}]]*/;
     </script>
-
+    <script type="text/javascript" th:src="@{/assets_home/home.js}"></script>
 </body>
 </html>

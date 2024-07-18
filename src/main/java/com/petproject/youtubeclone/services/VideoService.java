@@ -9,6 +9,9 @@ import com.petproject.youtubeclone.models.projections.VideoUserProjection;
 import com.petproject.youtubeclone.repositories.VideoRepository;
 import com.petproject.youtubeclone.utils.VideoIdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,9 +49,10 @@ public class VideoService {
     public List<Video> getVideoListByUserId(int userId) {
         return repo.getVideoListByUserId(userId);
     }
-    public List<VideoUserDTO> getAllVideo() {
-        List<VideoUserProjection> allVideoProjection = repo.getAllVideoSpecifyColumn();
-        return allVideoProjection.stream().map(pro ->
+    public List<VideoUserDTO> getAllVideo(int pageNum, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNum-1, pageSize);
+        Page<VideoUserProjection> allVideoProjection = repo.getAllVideo(pageable);
+        return  allVideoProjection.getContent().stream().map(pro ->
                 new VideoUserDTO(pro.getVideoId(), pro.getTitle()
                         ,pro.getUserId(),pro.getChannelName(),pro.getPhotoUrl(),pro.getThumbnail())
         ).toList();
