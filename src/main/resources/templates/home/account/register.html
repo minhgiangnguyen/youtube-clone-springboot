@@ -16,7 +16,7 @@
 
             <h5 class="card-title">YOUTUBE</h5>
             <h6 class="card-subtitle mb-2 text-muted">Create your YouTube account</h6>
-            <p th:text="${msg}" style="color:red"></p>
+            <p class="h5" th:text="${msg}" style="color:red"></p>
             <form action="" th:action="@{/register}" method="post" th:object="${user}" enctype="multipart/form-data" >
                 <div class="mb-3">
                     <label  class="form-label">Email address</label>

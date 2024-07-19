@@ -63,7 +63,7 @@
                                         <div class="col-9">
                                             <h5 sec:authentication="principal.channelName"></h5>
                                             <a th:if="${#authentication.principal.channelName}"
-                                               th:href="@{'/channel/' + ${#authentication.principal.channelName}}">
+                                               th:href="@{'/' + ${#authentication.principal.channelName}}">
                                                 View your channel
                                             </a>
                                         </div>

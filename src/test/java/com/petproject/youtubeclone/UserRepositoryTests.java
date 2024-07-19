@@ -65,4 +65,35 @@ public class UserRepositoryTests {
         assertThat(channel).isNotNull();
         System.out.println(channel.getTotalVideo());
     }
+
+    @Test
+    public void  testGetRoleByUserId() {
+        int userId=32;
+        ERole role = repo.getRoleById(32);
+        assertThat(role).isNotNull();
+        System.out.println(role);
+    }
+
+    @Test
+    public void  testAlterRoleByUserId() {
+        int userId=32;
+        ERole role = repo.getRoleById(32);
+        assertThat(role).isNotNull();
+        System.out.println(repo.getRoleById(32));
+        if(role==ERole.ROLE_USER){
+            repo.alterRole(ERole.ROLE_ADMIN,32);
+        }else{
+            repo.alterRole(ERole.ROLE_USER,32);
+        }
+
+        System.out.println(repo.getRoleById(32));
+    }
+
+    @Test
+    public void  testExistEmail() {
+        String email="minhgiang125@gmail.com";
+        boolean boo = repo.checkExistEmail(email);
+        assertThat(boo).isEqualTo(true);
+
+    }
 }

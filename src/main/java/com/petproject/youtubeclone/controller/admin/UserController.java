@@ -22,12 +22,14 @@ public class UserController {
         model.addAttribute("channelList",channelList);
         return "admin/channelList";
     }
-    @GetMapping(value = "/admin/channel/{id}/edit-role")
+    @GetMapping(value = "/admin/channel/{id}/edit/role")
     public String editRole(@PathVariable("id") int id, Model model) {
-        User user = service.get(id);
-        user.setRole(user.getRole()==ERole.ROLE_USER?ERole.ROLE_ADMIN:ERole.ROLE_USER);
-
-        service.save(user);
+        ERole role = service.getRoleById(id);
+        if(role==ERole.ROLE_USER){
+            service.alterRole(ERole.ROLE_ADMIN,id);
+        }else{
+            service.alterRole(ERole.ROLE_USER,id);
+        }
         return "redirect:/admin/channel";
 
     }

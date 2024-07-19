@@ -54,6 +54,14 @@ public class AccountController {
     public String submitForm(@Valid @ModelAttribute("user") User user, BindingResult bindingResult
             , @RequestParam MultipartFile file, Model model) throws IOException {
         String[] imageType=new String[]{"image/jpeg","image/png","image/jpg"};
+        if(service.checkExistEmail(user.getEmail())){
+            model.addAttribute("msg","Account is already exists");
+            return "home/account/register";
+        }
+        if(service.checkExistChannelName(user.getChannelName())){
+            model.addAttribute("msg","Channel Name is already exists");
+            return "home/account/register";
+        }
         if (bindingResult.hasErrors()) {
             return "home/account/register";
         } else {
@@ -73,11 +81,19 @@ public class AccountController {
                 user.setPhotoUrl(fileName);
 
             }
+//            if(service.checkExistEmail(user.getEmail())){
+//                model.addAttribute("msg","Email is already in use");
+//                return "home/account/register";
+//            }
+//            if(service.checkExistChannelName(user.getChannelName())){
+//                model.addAttribute("msg","Channel Name is already in use");
+//                return "home/account/register";
+//            }
             User savedUser = service.save(user);
-            if(savedUser == null){
-                model.addAttribute("msg","Register fail");
-                return "home/account/register";
-            }
+//            if(savedUser == null){
+//                model.addAttribute("msg","Register fail");
+//                return "home/account/register";
+//            }
             if(!fileName.isEmpty()){
                 String uploadDir = "user-photos/" + savedUser.getUserId();
                 FileUploadUtil.saveFile(uploadDir, fileName, file);
@@ -94,7 +110,7 @@ public class AccountController {
         try {
             CustomUserDetails user = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication()
                     .getPrincipal();
-            if (user.getAuthorities().toString().contains(ERole.ROLE_ADMIN.name()))
+            if (user.getAuthorities().toString().contains(ERole.ROLE_ADMIN.toString()))
                 return "redirect:/admin";
         } catch (Exception e) {
 

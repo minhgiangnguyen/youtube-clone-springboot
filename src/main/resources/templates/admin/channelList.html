@@ -49,8 +49,10 @@
                             <td>
                                 <a th:href="@{/admin/channel/{id}/delete(id=${channel.userId})}" class="btn btn-danger"
                                    onclick="return confirm('Do you delete this User?')">Delete</a>
-                                <a th:href="@{/admin/channel/{id}/edit-role(id=${channel.userId})}" class="btn btn-primary"
-                                   th:onclick="'return confirm(\'Do you want to delete user ' + /*[[${channel.userId}]]*/ \'\' + '?\')'">Alter Role</a>
+                                <a th:href="@{'/admin/channel/'+${channel.userId}+'/edit/role'}" class="btn btn-primary"
+                                onclick="return confirm('Do you change role?')">
+                                    Alter Role</a>
+<!--                                   th:onclick="'return confirm(\'Do you want to delete user ' + /*[[${channel.userId}]]*/ \'\' + '?\')'">-->
 <!--                                <form action="" th:action="@{/admin/channel/{id}/edit-role(id=${channel.userId})}" method="post">-->
 <!--                                    <button type="submit" class="btn btn-primary">Edit Role</button>-->
 <!--                                </form>-->
