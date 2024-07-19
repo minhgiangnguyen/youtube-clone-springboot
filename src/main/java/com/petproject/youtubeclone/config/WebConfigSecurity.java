@@ -53,9 +53,10 @@ public class WebConfigSecurity {
                                         ,"/user-photos/**"
                                         ,"/watch**")
                         .permitAll()
-                        .requestMatchers("/studio/**","/studio").hasRole("USER")
-                        .requestMatchers("/admin/**","/admin*").hasRole("ADMIN")
+                        .requestMatchers("/studio","/studio/**").hasRole("USER")
+                        .requestMatchers("/admin","/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
+
                 )
                 .formLogin(login ->
                         login.usernameParameter("email")

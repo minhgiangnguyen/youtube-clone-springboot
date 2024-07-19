@@ -55,10 +55,16 @@
                     </ul>
                 </div>
                 <!-- Video list  -->
-                <div th:include="home/fragments/channelFragment.html :: home(${videoList})"
-                     th:if="${page=='home'}"></div>
-                <div th:include="home/fragments/channelFragment.html :: videos(${videoList})"
-                     th:if="${page=='videos'}"></div>
+                <th:block th:if="${page=='home'}">
+                    <div th:replace="~{home/fragments/channelFragment.html :: home(${videoList})}"></div>
+
+                </th:block>
+                <th:block th:if="${page=='videos'}">
+                    <div th:replace="~{home/fragments/channelFragment.html :: videos(${videoList})}"></div>
+
+                </th:block>
+
+
                 <!--End Video list  -->
 
             </main>

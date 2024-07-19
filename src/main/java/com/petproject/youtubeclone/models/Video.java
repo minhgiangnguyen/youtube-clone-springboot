@@ -28,8 +28,10 @@ public class Video {
     private String description;
 
     @Column(name = "thumbnail")
+//    @NotBlank(message = "Thumbnail have not bean upload yet")
     private String thumbnail;
     @Column(name = "video_url")
+//    @NotBlank(message = "Video have not bean upload yet")
     private String videoUrl;
     @Column(name = "user_id")
     private int userId;

@@ -25,8 +25,6 @@ let pageNum = 1;
 var isAtBottom = false; // Flag to prevent multiple triggers
 
 $(window).on('scroll', function() {
-//console.log(pageNum);
-//console.log($(window).scrollTop() + $(window).height() >= $(document).height())
      if (pageNum<totalPage && !isAtBottom
      && $(window).scrollTop() + $(window).height() >= $(document).height()) {
         console.log('Scrollbar is at the bottom');

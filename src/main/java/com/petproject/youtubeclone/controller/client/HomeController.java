@@ -42,7 +42,7 @@ public class HomeController {
 //        if(!Arrays.asList(urlArr).contains(url)) return "home/404";
 //        return "redirect:/"+url;
 //    }
-    int pageSize=2;
+    int pageSize=6;
     @GetMapping(value = { "/" })
     public String index(Model model, HttpServletRequest request) {
         int pageNum=1;

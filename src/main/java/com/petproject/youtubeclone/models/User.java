@@ -37,7 +37,6 @@ public class User {
     @Email(message = "Please enter a valid e-mail address")
     @Size(min = 3, max=60)
     @Column(name = "email")
-    @UniqueEmail
     private String email;
     @Column(name = "photo_url")
     private String photoUrl;

@@ -11,10 +11,12 @@
     <script type="text/javascript" src="/ckeditor/ckeditor.js"></script>
     <link href="https://vjs.zencdn.net/8.12.0/video-js.css" rel="stylesheet" />
     <script src="https://vjs.zencdn.net/8.12.0/video.min.js"></script>
+
+    <script type="text/javascript" th:src="@{/assets_home/studio.js}"></script>
 </head>
 <body>
     <div th:replace="~{home/fragments/general.html::
-        topbar('/assets_home/images/Youtube-studio-logo.png','/studio/channel'+${video.userId})}"></div>
+        topbar('/assets_home/images/Youtube-studio-logo.png','/studio/channel/'+${video.userId})}"></div>
 
     <div class="container-fluid" style="margin-top:75px">
         <div class="row" style="height:900px">
@@ -53,9 +55,7 @@
                                         </div>
                                         <div class="mb-3">
                                             <label  class="form-label">Upload thumbnail</label>
-                                            <input class="form-control" type="file" name="thumbFile" >
-                                            <!--                                                <div  class="form-text" style="color:red"-->
-                                            <!--                                                      th:if="${#fields.hasErrors('thumbnail')}" th:errors="*{thumbnail}"></div>-->
+                                            <input class="form-control" type="file" id="thumbFile" name="thumbFile" >
                                             <div class="form-text" style="color:red" th:text="${errorThumb}"></div>
                                         </div>
                                         <div class="mb-3">
@@ -70,13 +70,13 @@
                                             </video>
 
                                         </div>
-                                        <div class="mb-3 px-3 ">
+                                        <div class="mb-3 ">
                                             <p class="m-0">Link video</p>
-                                            <a th:href="@{'/videos/'+${video.videoId}}"
-                                               th:text="@{${baseUrl} +'/videos/'+${video.videoId}}" target="_blank"></a>
+                                            <a th:href="@{'/watch?v='+${video.videoId}}"
+                                               th:text="@{${baseUrl} +'/watch?v='+${video.videoId}}" target="_blank"></a>
                                         </div>
-                                        <div class="mb-3">
-                                            <img th:src="@{${video.thumbsPath}}" width="300">
+                                        <div id="thumbImgTag" class="mb-3">
+                                            <img th:src="@{${video.thumbsPath}}" width="400">
                                         </div>
                                     </div>
                                 </div>

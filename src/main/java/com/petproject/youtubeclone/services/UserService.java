@@ -33,9 +33,9 @@ public class UserService {
             user.setCreateAt(LocalDateTime.now());
         }
         user.setUpdateAt(LocalDateTime.now());
-        if(user.getRole()==null) {
-            user.setRole(ERole.ROLE_USER);
-        }
+
+        user.setRole(ERole.ROLE_USER);
+
 
         return repo.save(user);
     }
@@ -43,10 +43,23 @@ public class UserService {
     public User get(int id) {
         return repo.findById(id).get();
     }
+    public boolean checkExistEmail(String email){
+        return repo.checkExistEmail(email);
+    }
+    public boolean checkExistChannelName(String channelName){
+        return repo.checkExistChannelName(channelName);
+    }
+    public ERole getRoleById(int id) {
+        return repo.getRoleById(id);
+    }
 
     public void delete(int id) {
         repo.deleteById(id);
     }
+    public void alterRole(ERole role,int id) {
+        repo.alterRole(role,id);
+    }
+
 
     public ChannelProjection getChannelByName(String channelName){
         return repo.getChannelByName(channelName);
