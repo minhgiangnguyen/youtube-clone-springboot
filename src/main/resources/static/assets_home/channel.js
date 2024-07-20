@@ -48,13 +48,15 @@ $('#slickVideos').slick({
       // instead of a settings object
     ]
 })
-
-function sortVideos(sortType){
-
+let pageNum = 1;
+function sortVideos(event,sortType){
+    pageNum=1;
+    console.log("click")
+    event.preventDefault();
     if($("#btn-sort-latest").hasClass("btn-dark") && sortType=="latest") return false;
     if($("#btn-sort-oldest").hasClass("btn-dark") && sortType=="oldest") return false;
     $.post(baseUrl+"/"+channelName+"/videos?s="+sortType, function(data){
-        $('#sortVideos').html(data);
+        $('#sortVideos .card-deck').html(data);
 
         if(sortType=="latest"){
             $("#btn-sort-latest").removeClass("btn-light");
@@ -70,6 +72,29 @@ function sortVideos(sortType){
         }
     })
 
-    return false;
+
 }
 
+const loaderContent= '<div id="loaderContent" class="loaderContent mt-3 d-flex justify-content-center">'
+                        +'<div class="loader"></div>'
+                         +'</div>';
+
+var isAtBottom = false;
+var sortType = $("#btn-sort-latest").hasClass("btn-dark")?"latest":"oldest";
+$(window).on('scroll', function() {
+     if (pageNum<totalPage && !isAtBottom
+     && $(window).scrollTop() + $(window).height() >= $(document).height()) {
+        console.log('Scrollbar is at the bottom');
+        isAtBottom = true;
+         $( "#sortVideos" ).after( loaderContent);
+
+         setTimeout(() => {
+              $("#loaderContent").remove();
+                 pageNum++;
+                 $.post(baseUrl+"/"+channelName+"/videos/page/"+pageNum+"?s="+sortType, function(data){
+                         $('#sortVideos .card-deck').append(data);
+                 })
+              isAtBottom = false; // Reset the flag
+         }, 3000);
+     }
+})

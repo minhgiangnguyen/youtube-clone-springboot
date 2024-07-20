@@ -53,7 +53,7 @@ public class WebConfigSecurity {
                                         ,"/user-photos/**"
                                         ,"/watch**")
                         .permitAll()
-                        .requestMatchers("/studio","/studio/**").hasRole("USER")
+                        .requestMatchers("/studio","/studio/**").hasAnyRole("USER","ADMIN")
                         .requestMatchers("/admin","/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
 

@@ -54,11 +54,11 @@ public class AccountController {
     public String submitForm(@Valid @ModelAttribute("user") User user, BindingResult bindingResult
             , @RequestParam MultipartFile file, Model model) throws IOException {
         String[] imageType=new String[]{"image/jpeg","image/png","image/jpg"};
-        if(service.checkExistEmail(user.getEmail())){
+        if(service.emailExists(user.getEmail())){
             model.addAttribute("msg","Account is already exists");
             return "home/account/register";
         }
-        if(service.checkExistChannelName(user.getChannelName())){
+        if(service.channelNameExists(user.getChannelName())){
             model.addAttribute("msg","Channel Name is already exists");
             return "home/account/register";
         }
@@ -81,14 +81,7 @@ public class AccountController {
                 user.setPhotoUrl(fileName);
 
             }
-//            if(service.checkExistEmail(user.getEmail())){
-//                model.addAttribute("msg","Email is already in use");
-//                return "home/account/register";
-//            }
-//            if(service.checkExistChannelName(user.getChannelName())){
-//                model.addAttribute("msg","Channel Name is already in use");
-//                return "home/account/register";
-//            }
+
             User savedUser = service.save(user);
 //            if(savedUser == null){
 //                model.addAttribute("msg","Register fail");

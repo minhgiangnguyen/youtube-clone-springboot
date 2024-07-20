@@ -24,10 +24,10 @@ public interface UserRepository extends JpaRepository<User,Integer> {
 
     @Query("select case when count(u)> 0 then true else false end from User u"
             +" where u.email = ?1")
-    boolean checkExistEmail(String email);
+    boolean emailExists(String email);
     @Query("select case when count(u)> 0 then true else false end from User u"
             +" where u.channelName = ?1")
-    boolean checkExistChannelName(String channelName);
+    boolean channelNameExists(String channelName);
 
     @Query(value = "SELECT u.user_id, u.channel_name,u.photo_url, u.create_at,"
             + " Cast(Count(u.user_id) as Integer) as total_video  "
