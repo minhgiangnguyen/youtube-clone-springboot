@@ -43,11 +43,11 @@ public class UserService {
     public User get(int id) {
         return repo.findById(id).get();
     }
-    public boolean checkExistEmail(String email){
-        return repo.checkExistEmail(email);
+    public boolean emailExists(String email){
+        return repo.emailExists(email);
     }
-    public boolean checkExistChannelName(String channelName){
-        return repo.checkExistChannelName(channelName);
+    public boolean channelNameExists(String channelName){
+        return repo.channelNameExists(channelName);
     }
     public ERole getRoleById(int id) {
         return repo.getRoleById(id);

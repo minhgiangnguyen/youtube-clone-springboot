@@ -7,7 +7,9 @@ import com.petproject.youtubeclone.models.dto.VideoUserDTO;
 import com.petproject.youtubeclone.models.projections.VideoUserProjection;
 import com.petproject.youtubeclone.repositories.VideoRepository;
 import com.petproject.youtubeclone.services.VideoService;
+import com.petproject.youtubeclone.utils.YoutubeUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Limit;
 import org.springframework.data.domain.Page;
@@ -50,48 +52,29 @@ public class HomeController {
                 .replacePath(null)
                 .build()
                 .toUriString();
-        Pageable pageable = PageRequest.of(0, pageSize);
-        List<VideoUserDTO> pageVideos = service.getAllVideo(pageNum,pageSize);
+        Pair<Integer, List<VideoUserDTO>> pair = service.getAllVideo(pageNum,pageSize);
+        List<VideoUserDTO> pageVideos = pair.getValue();
+        int totalPage = pair.getKey();
         pageVideos.stream().peek(video -> {
             String title = video.getTitle();
          if(title.length()>58){
-             String[] arrTitle = title.split(" ");
-             StringBuilder newTitle= new StringBuilder();
-             int newLength=0;
-            for(int i=0;i<arrTitle.length;i++){
-                newLength+=arrTitle[i].length();
-                if(i!=arrTitle.length-1 && arrTitle[i+1].length()+newLength>55) {
-                    newTitle.append("...");
-                    break;
-                }
-                newTitle.append(" ").append(arrTitle[i]);
-            }
-            video.setTitle(newTitle.toString());
+             String newTitle = YoutubeUtil.subTitle(title,58);
+            video.setTitle(newTitle);
          }
         }).toList();
         model.addAttribute("pageVideos",pageVideos);
         model.addAttribute("baseUrl",baseUrl);
-        model.addAttribute("totalPage", repo.getAllVideo(pageable).getTotalPages());
+        model.addAttribute("totalPage", totalPage);
         return "home/index";
     }
     @PostMapping(value = { "/page/{pageNum}" })
     public String loadingVideos(@PathVariable("pageNum") int pageNum, Model model) {
-        List<VideoUserDTO> pageVideos = service.getAllVideo(pageNum,pageSize);
+        List<VideoUserDTO> pageVideos = service.getAllVideo(pageNum,pageSize).getValue();
         pageVideos.stream().peek(video -> {
             String title = video.getTitle();
             if(title.length()>58){
-                String[] arrTitle = title.split(" ");
-                StringBuilder newTitle= new StringBuilder();
-                int newLength=0;
-                for(int i=0;i<arrTitle.length;i++){
-                    newLength+=arrTitle[i].length();
-                    if(i!=arrTitle.length-1 && arrTitle[i+1].length()+newLength>55) {
-                        newTitle.append("...");
-                        break;
-                    }
-                    newTitle.append(" ").append(arrTitle[i]);
-                }
-                video.setTitle(newTitle.toString());
+                String newTitle = YoutubeUtil.subTitle(title,58);
+                video.setTitle(newTitle);
             }
         }).toList();
         model.addAttribute("pageVideos",pageVideos);

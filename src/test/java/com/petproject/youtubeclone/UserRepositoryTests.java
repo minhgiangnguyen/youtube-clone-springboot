@@ -92,7 +92,7 @@ public class UserRepositoryTests {
     @Test
     public void  testExistEmail() {
         String email="minhgiang125@gmail.com";
-        boolean boo = repo.checkExistEmail(email);
+        boolean boo = repo.emailExists(email);
         assertThat(boo).isEqualTo(true);
 
     }

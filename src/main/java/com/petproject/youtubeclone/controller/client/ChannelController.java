@@ -1,11 +1,14 @@
 package com.petproject.youtubeclone.controller.client;
 
 import com.petproject.youtubeclone.models.dto.VideoChannelDTO;
+import com.petproject.youtubeclone.models.dto.VideoUserDTO;
 import com.petproject.youtubeclone.models.projections.ChannelProjection;
 import com.petproject.youtubeclone.models.projections.VideoChannelProjection;
 import com.petproject.youtubeclone.services.UserService;
 import com.petproject.youtubeclone.services.VideoService;
+import com.petproject.youtubeclone.utils.YoutubeUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,30 +27,17 @@ public class ChannelController {
     @Autowired
     private UserService userService;
 
-    static String subTitle(String title,int numSub) {
-        String[] arrTitle = title.split(" ");
-        StringBuilder newTitle= new StringBuilder();
-        int newLength=0;
-        for(int i=0;i<arrTitle.length;i++){
-            newLength+=arrTitle[i].length();
-            if(i!=arrTitle.length-1 && arrTitle[i+1].length()+newLength>numSub-3) {
-                newTitle.append("...");
-                break;
-            }
-            newTitle.append(" ").append(arrTitle[i]);
-        }
-        return newTitle.toString();
-    }
-
+    private final int pageSize =8;
 
     @GetMapping(value = { "/{channelName}","/{channelName}/","/{channelName}/home" })
     public String homeChannel(@PathVariable("channelName") String channelName, Model model){
         ChannelProjection channel = userService.getChannelByName(channelName);
-        List<VideoChannelDTO> videoList = videoService.getVideosByChannelNameLatest(channelName);
+        int limit = 8;
+        List<VideoChannelDTO> videoList = videoService.getLimitVideos(channelName, limit);
         videoList.stream().peek(video -> {
             String title = video.getTitle();
             if(title.length()>65){
-                String newTitle = ChannelController.subTitle(title,65);
+                String newTitle = YoutubeUtil.subTitle(title,65);
                 video.setTitle(newTitle);
             }
         }).toList();
@@ -65,41 +55,58 @@ public class ChannelController {
                 .build()
                 .toUriString();
         ChannelProjection channel = userService.getChannelByName(channelName);
-        List<VideoChannelDTO> videoList = videoService.getVideosByChannelNameLatest(channelName);
-        videoList.stream().peek(video -> {
+        Pair<Integer, List<VideoChannelDTO>> pair =
+                videoService.getVideosByChannelNameLatest(channelName,1, pageSize);
+        List<VideoChannelDTO> pageVideos = pair.getValue();
+        int totalPage = pair.getKey();
+        pageVideos.stream().peek(video -> {
             String title = video.getTitle();
             if(title.length()>65){
-                String newTitle = ChannelController.subTitle(title,65);
+                String newTitle = YoutubeUtil.subTitle(title,65);
                 video.setTitle(newTitle);
             }
         }).toList();
         model.addAttribute("channel",channel);
-        model.addAttribute("videoList",videoList);
+        model.addAttribute("videoList",pageVideos);
         model.addAttribute("page","videos");
         model.addAttribute("baseUrl",baseUrl);
+        model.addAttribute("totalPage", totalPage);
         return "home/channelProfile/channel";
     }
 
     @PostMapping(value = { "/{channelName}/videos" })
     public String sortVideos(@PathVariable("channelName") String channelName
             ,@RequestParam("s") String sortType, Model model){
-//        ChannelProjection channel = userService.getChannelByName(channelName);
         List<VideoChannelDTO> videoList =sortType.equals("latest")
-                ?videoService.getVideosByChannelNameLatest(channelName)
-                :videoService.getVideosByChannelNameOldest(channelName);
+                ?videoService.getVideosByChannelNameLatest(channelName,1,pageSize).getValue()
+                :videoService.getVideosByChannelNameOldest(channelName,1,pageSize).getValue();
         videoList.stream().peek(video -> {
             String title = video.getTitle();
             if(title.length()>65){
-                String newTitle = ChannelController.subTitle(title,65);
+                String newTitle = YoutubeUtil.subTitle(title,65);
                 video.setTitle(newTitle);
             }
         }).toList();
-//        model.addAttribute("channel",channel);
         model.addAttribute("videoList",videoList);
-//        model.addAttribute("sortType",sortType);
-//        model.addAttribute("page","videos");
         return "home/channelProfile/sortChannelVideos";
     }
 
+    @PostMapping(value = { "/{channelName}/videos/page/{pageNum}" })
+    public String sortPageVideos(@PathVariable("channelName") String channelName
+            ,@PathVariable("pageNum") int pageNum
+            ,@RequestParam("s") String sortType, Model model){
+        List<VideoChannelDTO> videoList =sortType.equals("latest")
+                ?videoService.getVideosByChannelNameLatest(channelName,pageNum,pageSize).getValue()
+                :videoService.getVideosByChannelNameOldest(channelName,pageNum,pageSize).getValue();
+        videoList.stream().peek(video -> {
+            String title = video.getTitle();
+            if(title.length()>65){
+                String newTitle = YoutubeUtil.subTitle(title,65);
+                video.setTitle(newTitle);
+            }
+        }).toList();
+        model.addAttribute("videoList",videoList);
+        return "home/channelProfile/sortChannelVideos";
+    }
 
 }

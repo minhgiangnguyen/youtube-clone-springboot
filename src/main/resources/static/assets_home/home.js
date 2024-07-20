@@ -16,10 +16,6 @@ var widthResize = $(window).width();
 const loaderContent= '<div id="loaderContent" class="loaderContent mt-3 d-flex justify-content-center">'
                         +'<div class="loader"></div>'
                          +'</div>';
-const textContent = '<div id="myDiv" >'
-                      +'<h2>Tadaaaaaaaaaaaaaaaaaaaaa!</h2>'
-                      +'<p>Some text in my newly loaded page..</p>'
-                    +'</div>'
 
 let pageNum = 1;
 var isAtBottom = false; // Flag to prevent multiple triggers
@@ -33,8 +29,6 @@ $(window).on('scroll', function() {
 
          setTimeout(() => {
               $("#loaderContent").remove();
-              isPageVideos = true;
-
                  pageNum++;
                  $.post(baseUrl+"/page/"+pageNum, function(data){
                          $('#allVideo .card-deck').append(data);

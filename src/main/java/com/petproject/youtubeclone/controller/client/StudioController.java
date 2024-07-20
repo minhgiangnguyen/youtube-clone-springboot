@@ -30,16 +30,17 @@ public class StudioController {
     private VideoService videoService;
 
 
+
+
     @GetMapping(value = {"studio","studio/","studio/channel","studio/channel/"})
     public String studio() {
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken)
             return "redirect:/login";
-        }
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        int id = userDetails.getUserId();
-        return "redirect:/studio/channel/"+id;
+        int userId = userDetails.getUserId();
+        return "redirect:/studio/channel/"+userId;
+
     }
     @GetMapping(value = {"studio/channel/{id}"})
     public String channelStudio(@PathVariable("id") String id,Model model) {
@@ -63,6 +64,15 @@ public class StudioController {
     }
     @GetMapping(value = {"studio/video/{id}/edit","studio/video/{id}/","studio/video/{id}"})
     public String editVideo(@PathVariable("id") String id,Model model, HttpServletRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+            return "redirect:/login";
+        }
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        int userId = userDetails.getUserId();
+        if(!videoService.videoExists(id)) return "home/404";
+        if(userId != videoService.getUserIdByVideoId(id)) return "home/404";
+
         String baseUrl = UriComponentsBuilder.fromHttpUrl(request.getRequestURL().toString())
                 .replacePath(null)
                 .build()
