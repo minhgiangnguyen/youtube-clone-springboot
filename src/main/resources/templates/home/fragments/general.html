@@ -20,9 +20,9 @@
             </div>
 
             <div id="search-bar"  >
-                <form class="form-inline">
+                <form class="form-inline" th:action="@{/results}" method="get">
                     <div class="input-group">
-                        <input type="search" class="form-control " placeholder="Search..." name="search" />
+                        <input type="search" class="form-control " placeholder="Search..." name="search_query" />
                         <div class="input-group-prepend">
                             <button class="btn input-group-text" type="button">
                                 <i class="fas fa-search"></i>

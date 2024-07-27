@@ -5,14 +5,13 @@ import com.petproject.youtubeclone.models.dto.VideoUserDTO;
 import com.petproject.youtubeclone.models.projections.VideoChannelProjection;
 import com.petproject.youtubeclone.models.projections.VideoDetailUserProjection;
 import com.petproject.youtubeclone.models.projections.VideoUserProjection;
-import com.petproject.youtubeclone.repositories.VideoRepository;
+import com.petproject.youtubeclone.repositories.jpa.VideoRepository;
 import com.petproject.youtubeclone.utils.VideoIdGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.data.domain.Limit;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +31,7 @@ public class VideoRepositoryTests {
     private TestEntityManager entityManager;
     @Autowired
     private VideoRepository repo;
+
 
     @Test
     public void testCreateVideo() {
@@ -55,20 +55,13 @@ public class VideoRepositoryTests {
 
     @Test
     public void testGetVideoListByUserId() {
-        int userId = 33;
+        int userId = 32;
         List<Video> videoList = repo.getVideoListByUserId(userId);
         assertFalse(videoList.isEmpty());
 
     }
 
-    @Test
-    public void testAllVideoList() {
-        List<Video> allVideo = repo.findAll();
-        assertThat(allVideo).isNotEmpty();
-        for(Video v: allVideo){
-            System.out.println(v.getUser().getChannelName());
-        }
-    }
+
 
     @Test
     public void testAllVideo() {
@@ -101,13 +94,16 @@ public class VideoRepositoryTests {
     @Test
     public void testGetVideoListByChannelName() {
         String channelName = "minhgiangnguyen";
-//        List<VideoChannelProjection> videos = repo.getVideosByChannelNameLatest(channelName);
+        Pageable pageable = PageRequest.of(0, 1);
+        Page<VideoChannelProjection> videos = repo.getVideosByChannelNameLatest(channelName,pageable);
 
-//        assertThat(videos).isNotNull();
+        assertThat(videos).isNotNull();
 //        for (VideoChannelProjection v : videos){
 //            System.out.println(v.toString());
 //        }
 
     }
+
+
 
 }

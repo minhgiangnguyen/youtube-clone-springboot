@@ -3,7 +3,7 @@ package com.petproject.youtubeclone;
 import com.petproject.youtubeclone.models.User;
 import com.petproject.youtubeclone.models.enums.ERole;
 import com.petproject.youtubeclone.models.projections.ChannelProjection;
-import com.petproject.youtubeclone.repositories.UserRepository;
+import com.petproject.youtubeclone.repositories.jpa.UserRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
@@ -15,12 +15,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
 
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
-import java.util.Calendar;
 
 import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest

@@ -6,7 +6,7 @@ import com.petproject.youtubeclone.models.dto.VideoUserDTO;
 import com.petproject.youtubeclone.models.projections.VideoChannelProjection;
 import com.petproject.youtubeclone.models.projections.VideoDetailUserProjection;
 import com.petproject.youtubeclone.models.projections.VideoUserProjection;
-import com.petproject.youtubeclone.repositories.VideoRepository;
+import com.petproject.youtubeclone.repositories.jpa.VideoRepository;
 import com.petproject.youtubeclone.utils.VideoIdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -26,18 +26,12 @@ public class VideoService {
     private VideoRepository repo;
 
 
-
-    public List<Video> listAll() {
-        return repo.findAll();
-    }
-
     public Video save(Video video) {
         if(video.getVideoId()==null)video.setVideoId(VideoIdGenerator.generateVideoId());
         if(video.getCreateAt()==null) {
             video.setCreateAt(LocalDateTime.now());
         }
         video.setUpdateAt(LocalDateTime.now());
-
 
         return repo.save(video);
     }
@@ -52,9 +46,11 @@ public class VideoService {
         return repo.getUserIdByVideoId(id);
     }
 
-    public void delete(String id) {
+    public void deleteVideoById(String id) {
         repo.deleteById(id);
     }
+
+
     public List<Video> getVideoListByUserId(int userId) {
         return repo.getVideoListByUserId(userId);
     }
@@ -63,6 +59,7 @@ public class VideoService {
         return repo.getVideoByIdWithUserIDChannel(videoId);
     }
 
+    //Home page
     public Pair<Integer,List<VideoUserDTO>> getAllVideo(int pageNum, int pageSize) {
         Pageable pageable = PageRequest.of(pageNum-1, pageSize);
         Page<VideoUserProjection> allVideoProjection = repo.getAllVideo(pageable);
@@ -75,6 +72,8 @@ public class VideoService {
         return new Pair<Integer,List<VideoUserDTO>>(totalPage,videos);
 
     }
+
+
     public Pair<Integer,List<VideoChannelDTO>>  getVideosByChannelNameLatest(String channelName,int pageNum, int pageSize) {
         Pageable pageable = PageRequest.of(pageNum-1, pageSize);
         Page<VideoChannelProjection> videosProjection = repo.getVideosByChannelNameLatest(channelName,pageable);
