@@ -2,7 +2,7 @@ package com.petproject.youtubeclone.repositories.jpa;
 
 import com.petproject.youtubeclone.models.User;
 import com.petproject.youtubeclone.models.enums.ERole;
-import com.petproject.youtubeclone.models.projections.ChannelProjection;
+import com.petproject.youtubeclone.models.projections.UserChannelProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -34,6 +34,6 @@ public interface UserRepository extends JpaRepository<User,Integer> {
             +" WHERE u.channel_name = ?1 "
             +" GROUP BY u.user_id,u.channel_name,u.photo_url,u.create_at "
             , nativeQuery = true)
-    public ChannelProjection getChannelByName(String channelName);
+    public UserChannelProjection getChannelByName(String channelName);
 
 }

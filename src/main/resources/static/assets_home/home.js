@@ -34,7 +34,7 @@ $(window).on('scroll', function() {
                          $('#allVideo .card-deck').append(data);
                  })
               isAtBottom = false; // Reset the flag
-         }, 3000);
+         }, 1000);
      }
 })
 

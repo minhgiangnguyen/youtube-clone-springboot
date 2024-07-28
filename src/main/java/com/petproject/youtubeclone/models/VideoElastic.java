@@ -9,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.DateFormat;
 
 import java.time.LocalDateTime;
 
@@ -30,9 +31,9 @@ public class VideoElastic {
 //    @Field(type = FieldType.Text,name = "video_url")
 //    private String videoUrl;
 
-    @Field(type = FieldType.Date,name = "create_at")
+    @Field(type = FieldType.Date,name = "create_at", format = DateFormat.strict_date_optional_time_nanos)
     private LocalDateTime createAt;
-    @Field(type = FieldType.Date,name = "update_at")
+    @Field(type = FieldType.Date,name = "update_at", format = DateFormat.strict_date_optional_time_nanos)
     private LocalDateTime updateAt;
 
     @Field(type = FieldType.Integer,name = "user_id")

@@ -2,7 +2,7 @@ package com.petproject.youtubeclone;
 
 import com.petproject.youtubeclone.models.User;
 import com.petproject.youtubeclone.models.enums.ERole;
-import com.petproject.youtubeclone.models.projections.ChannelProjection;
+import com.petproject.youtubeclone.models.projections.UserChannelProjection;
 import com.petproject.youtubeclone.repositories.jpa.UserRepository;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -56,7 +56,7 @@ public class UserRepositoryTests {
     @Test
     public void  testGetChannelByName() {
         String channelname="minhgiangnguye";
-        ChannelProjection channel = repo.getChannelByName(channelname);
+        UserChannelProjection channel = repo.getChannelByName(channelname);
         assertThat(channel).isNotNull();
         System.out.println(channel.getTotalVideo());
     }

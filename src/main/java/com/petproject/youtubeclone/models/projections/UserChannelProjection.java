@@ -2,7 +2,7 @@ package com.petproject.youtubeclone.models.projections;
 
 import java.time.LocalDateTime;
 
-public interface ChannelProjection {
+public interface UserChannelProjection {
     int getUserId();
     String getChannelName();
     String getPhotoUrl();

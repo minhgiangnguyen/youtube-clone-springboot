@@ -1,7 +1,7 @@
 package com.petproject.youtubeclone.controller.client;
 
 
-import com.petproject.youtubeclone.models.dto.VideoUserDTO;
+import com.petproject.youtubeclone.models.dto.VideoHomeDTO;
 import com.petproject.youtubeclone.services.VideoService;
 import com.petproject.youtubeclone.utils.YoutubeUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,8 +39,8 @@ public class HomeController {
                 .replacePath(null)
                 .build()
                 .toUriString();
-        Pair<Integer, List<VideoUserDTO>> pair = service.getAllVideo(pageNum,pageSize);
-        List<VideoUserDTO> pageVideos = pair.getValue();
+        Pair<Integer, List<VideoHomeDTO>> pair = service.getAllVideo(pageNum,pageSize);
+        List<VideoHomeDTO> pageVideos = pair.getValue();
         int totalPage = pair.getKey();
         pageVideos.stream().peek(video -> {
             String title = video.getTitle();
@@ -57,7 +57,7 @@ public class HomeController {
     }
     @PostMapping(value = { "/page/{pageNum}" })
     public String loadingVideos(@PathVariable("pageNum") int pageNum, Model model) {
-        List<VideoUserDTO> pageVideos = service.getAllVideo(pageNum,pageSize).getValue();
+        List<VideoHomeDTO> pageVideos = service.getAllVideo(pageNum,pageSize).getValue();
         pageVideos.stream().peek(video -> {
             String title = video.getTitle();
             if(title.length()>58){

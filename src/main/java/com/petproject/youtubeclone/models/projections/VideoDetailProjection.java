@@ -1,9 +1,8 @@
 package com.petproject.youtubeclone.models.projections;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-public interface VideoDetailUserProjection {
+public interface VideoDetailProjection {
     String getTitle();
     String getDescription();
     String getVideoUrl();
