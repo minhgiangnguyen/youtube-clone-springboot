@@ -95,6 +95,6 @@ $(window).on('scroll', function() {
                          $('#sortVideos .card-deck').append(data);
                  })
               isAtBottom = false; // Reset the flag
-         }, 3000);
+         }, 1000);
      }
 })

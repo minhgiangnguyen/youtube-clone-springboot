@@ -2,16 +2,14 @@ package com.petproject.youtubeclone.services;
 
 import com.petproject.youtubeclone.models.User;
 import com.petproject.youtubeclone.models.enums.ERole;
-import com.petproject.youtubeclone.models.projections.ChannelProjection;
-import com.petproject.youtubeclone.repositories.UserRepository;
+import com.petproject.youtubeclone.models.projections.UserChannelProjection;
+import com.petproject.youtubeclone.repositories.jpa.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -61,7 +59,7 @@ public class UserService {
     }
 
 
-    public ChannelProjection getChannelByName(String channelName){
+    public UserChannelProjection getChannelByName(String channelName){
         return repo.getChannelByName(channelName);
     }
 }

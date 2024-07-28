@@ -2,16 +2,15 @@ package com.petproject.youtubeclone.services;
 
 import com.petproject.youtubeclone.models.Video;
 import com.petproject.youtubeclone.models.dto.VideoChannelDTO;
-import com.petproject.youtubeclone.models.dto.VideoUserDTO;
-import com.petproject.youtubeclone.models.projections.VideoChannelProjection;
-import com.petproject.youtubeclone.models.projections.VideoDetailUserProjection;
-import com.petproject.youtubeclone.models.projections.VideoUserProjection;
-import com.petproject.youtubeclone.repositories.VideoRepository;
+import com.petproject.youtubeclone.models.dto.VideoHomeDTO;
+import com.petproject.youtubeclone.models.projections.VideoDetailProjection;
+import com.petproject.youtubeclone.repositories.jpa.VideoRepository;
 import com.petproject.youtubeclone.utils.VideoIdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javafx.util.Pair;
@@ -26,18 +25,12 @@ public class VideoService {
     private VideoRepository repo;
 
 
-
-    public List<Video> listAll() {
-        return repo.findAll();
-    }
-
     public Video save(Video video) {
         if(video.getVideoId()==null)video.setVideoId(VideoIdGenerator.generateVideoId());
         if(video.getCreateAt()==null) {
             video.setCreateAt(LocalDateTime.now());
         }
         video.setUpdateAt(LocalDateTime.now());
-
 
         return repo.save(video);
     }
@@ -52,57 +45,45 @@ public class VideoService {
         return repo.getUserIdByVideoId(id);
     }
 
-    public void delete(String id) {
+    public void deleteVideoById(String id) {
         repo.deleteById(id);
     }
+
+
     public List<Video> getVideoListByUserId(int userId) {
         return repo.getVideoListByUserId(userId);
     }
 
-    public VideoDetailUserProjection getVideoById(String videoId) {
-        return repo.getVideoByIdWithUserIDChannel(videoId);
+    public VideoDetailProjection getVideoById(String videoId) {
+        return repo.getVideoDetail(videoId);
     }
 
-    public Pair<Integer,List<VideoUserDTO>> getAllVideo(int pageNum, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNum-1, pageSize);
-        Page<VideoUserProjection> allVideoProjection = repo.getAllVideo(pageable);
-        int totalPage = allVideoProjection.getTotalPages();
-        List<VideoUserDTO> videos =  allVideoProjection.getContent().stream().map(pro ->
-                new VideoUserDTO(pro.getVideoId(), pro.getTitle()
-                        ,pro.getUserId(),pro.getChannelName(),pro.getPhotoUrl(),pro.getThumbnail())
-        ).toList();
+    //Home page
+    public Pair<Integer,List<VideoHomeDTO>> getAllVideo(int pageNum, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNum-1, pageSize, Sort.by(Sort.Direction.DESC, "createAt"));
+        Page<VideoHomeDTO> videos = repo.getAllVideo(pageable);
+        int totalPage = videos.getTotalPages();
 
-        return new Pair<Integer,List<VideoUserDTO>>(totalPage,videos);
+        return new Pair<Integer,List<VideoHomeDTO>>(totalPage,videos.getContent());
 
     }
-    public Pair<Integer,List<VideoChannelDTO>>  getVideosByChannelNameLatest(String channelName,int pageNum, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNum-1, pageSize);
-        Page<VideoChannelProjection> videosProjection = repo.getVideosByChannelNameLatest(channelName,pageable);
-        int totalPage = videosProjection.getTotalPages();
-        List<VideoChannelDTO> videos = videosProjection.stream().map(pro ->
-                new VideoChannelDTO(pro.getVideoId(), pro.getTitle()
-                        ,pro.getThumbnail(),pro.getUserId())
-        ).toList();
-        return new Pair<Integer,List<VideoChannelDTO>>(totalPage,videos);
+
+    public Pair<Integer,List<VideoChannelDTO>>  getAllVideoByChannelNameLatest(String channelName,int pageNum, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNum-1, pageSize, Sort.by(Sort.Direction.DESC, "createAt"));
+        Page<VideoChannelDTO> videos = repo.getVideosByChannelName(channelName,pageable);
+        int totalPage = videos.getTotalPages();
+        return new Pair<Integer,List<VideoChannelDTO>>(totalPage,videos.getContent());
 
     }
-    public Pair<Integer,List<VideoChannelDTO>> getVideosByChannelNameOldest(String channelName,int pageNum, int pageSize) {
-        Pageable pageable = PageRequest.of(pageNum-1, pageSize);
-        Page<VideoChannelProjection> videosProjection = repo.getVideosByChannelNameOldest(channelName,pageable);
-        int totalPage = videosProjection.getTotalPages();
-        List<VideoChannelDTO> videos = videosProjection.stream().map(pro ->
-                new VideoChannelDTO(pro.getVideoId(), pro.getTitle()
-                        ,pro.getThumbnail(),pro.getUserId())
-        ).toList();
-        return new Pair<Integer,List<VideoChannelDTO>>(totalPage,videos);
+    public Pair<Integer,List<VideoChannelDTO>> getAllVideoByChannelNameOldest(String channelName,int pageNum, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNum-1, pageSize, Sort.by(Sort.Direction.ASC, "createAt"));
+        Page<VideoChannelDTO> videos = repo.getVideosByChannelName(channelName,pageable);
+        int totalPage = videos.getTotalPages();
+        return new Pair<Integer,List<VideoChannelDTO>>(totalPage,videos.getContent());
     }
 
-    public List<VideoChannelDTO>  getLimitVideos(String channelName,int limit) {
-        List<VideoChannelProjection> videosProjection = repo.getLimitVideosByChannelNameLatest(channelName,limit);
-        return videosProjection.stream().map(pro ->
-                new VideoChannelDTO(pro.getVideoId(), pro.getTitle()
-                        ,pro.getThumbnail(),pro.getUserId())
-        ).toList();
-
+    public List<VideoChannelDTO> getLimitVideosByChannelName(String channelName, int limit) {
+        Pageable pageable = PageRequest.of(0, limit, Sort.by(Sort.Direction.DESC, "createAt"));
+        return repo.getVideosByChannelName(channelName,pageable).getContent();
     }
 }

@@ -1,9 +1,7 @@
 package com.petproject.youtubeclone.controller.client;
 
 import com.petproject.youtubeclone.models.dto.VideoChannelDTO;
-import com.petproject.youtubeclone.models.dto.VideoUserDTO;
-import com.petproject.youtubeclone.models.projections.ChannelProjection;
-import com.petproject.youtubeclone.models.projections.VideoChannelProjection;
+import com.petproject.youtubeclone.models.projections.UserChannelProjection;
 import com.petproject.youtubeclone.services.UserService;
 import com.petproject.youtubeclone.services.VideoService;
 import com.petproject.youtubeclone.utils.YoutubeUtil;
@@ -31,9 +29,9 @@ public class ChannelController {
 
     @GetMapping(value = { "/{channelName}","/{channelName}/","/{channelName}/home" })
     public String homeChannel(@PathVariable("channelName") String channelName, Model model){
-        ChannelProjection channel = userService.getChannelByName(channelName);
-        int limit = 8;
-        List<VideoChannelDTO> videoList = videoService.getLimitVideos(channelName, limit);
+        int limitVideo = 8;
+        UserChannelProjection channel = userService.getChannelByName(channelName);
+        List<VideoChannelDTO> videoList = videoService.getLimitVideosByChannelName(channelName, limitVideo);
         videoList.stream().peek(video -> {
             String title = video.getTitle();
             if(title.length()>65){
@@ -54,9 +52,9 @@ public class ChannelController {
                 .replacePath(null)
                 .build()
                 .toUriString();
-        ChannelProjection channel = userService.getChannelByName(channelName);
+        UserChannelProjection channel = userService.getChannelByName(channelName);
         Pair<Integer, List<VideoChannelDTO>> pair =
-                videoService.getVideosByChannelNameLatest(channelName,1, pageSize);
+                videoService.getAllVideoByChannelNameLatest(channelName,1, pageSize);
         List<VideoChannelDTO> pageVideos = pair.getValue();
         int totalPage = pair.getKey();
         pageVideos.stream().peek(video -> {
@@ -78,8 +76,8 @@ public class ChannelController {
     public String sortVideos(@PathVariable("channelName") String channelName
             ,@RequestParam("s") String sortType, Model model){
         List<VideoChannelDTO> videoList =sortType.equals("latest")
-                ?videoService.getVideosByChannelNameLatest(channelName,1,pageSize).getValue()
-                :videoService.getVideosByChannelNameOldest(channelName,1,pageSize).getValue();
+                ?videoService.getAllVideoByChannelNameLatest(channelName,1,pageSize).getValue()
+                :videoService.getAllVideoByChannelNameOldest(channelName,1,pageSize).getValue();
         videoList.stream().peek(video -> {
             String title = video.getTitle();
             if(title.length()>65){
@@ -96,8 +94,8 @@ public class ChannelController {
             ,@PathVariable("pageNum") int pageNum
             ,@RequestParam("s") String sortType, Model model){
         List<VideoChannelDTO> videoList =sortType.equals("latest")
-                ?videoService.getVideosByChannelNameLatest(channelName,pageNum,pageSize).getValue()
-                :videoService.getVideosByChannelNameOldest(channelName,pageNum,pageSize).getValue();
+                ?videoService.getAllVideoByChannelNameLatest(channelName,pageNum,pageSize).getValue()
+                :videoService.getAllVideoByChannelNameOldest(channelName,pageNum,pageSize).getValue();
         videoList.stream().peek(video -> {
             String title = video.getTitle();
             if(title.length()>65){

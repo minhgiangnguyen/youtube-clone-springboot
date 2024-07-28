@@ -1,7 +1,6 @@
 package com.petproject.youtubeclone.models;
 
 import com.petproject.youtubeclone.models.enums.ERole;
-import com.petproject.youtubeclone.valid.UniqueEmail;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -50,10 +49,6 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Video> videos;
-
-
-
-
 
     @Transient
     public String getPhotosImagePath() {

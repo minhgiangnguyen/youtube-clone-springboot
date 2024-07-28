@@ -1,21 +1,20 @@
 package com.petproject.youtubeclone;
 
 import com.petproject.youtubeclone.models.Video;
-import com.petproject.youtubeclone.models.dto.VideoUserDTO;
-import com.petproject.youtubeclone.models.projections.VideoChannelProjection;
-import com.petproject.youtubeclone.models.projections.VideoDetailUserProjection;
-import com.petproject.youtubeclone.models.projections.VideoUserProjection;
-import com.petproject.youtubeclone.repositories.VideoRepository;
+import com.petproject.youtubeclone.models.dto.VideoChannelDTO;
+import com.petproject.youtubeclone.models.dto.VideoHomeDTO;
+import com.petproject.youtubeclone.models.projections.VideoDetailProjection;
+import com.petproject.youtubeclone.repositories.jpa.VideoRepository;
 import com.petproject.youtubeclone.utils.VideoIdGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.data.domain.Limit;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Rollback;
 
 import java.time.LocalDateTime;
@@ -32,6 +31,7 @@ public class VideoRepositoryTests {
     private TestEntityManager entityManager;
     @Autowired
     private VideoRepository repo;
+
 
     @Test
     public void testCreateVideo() {
@@ -55,36 +55,28 @@ public class VideoRepositoryTests {
 
     @Test
     public void testGetVideoListByUserId() {
-        int userId = 33;
+        int userId = 32;
         List<Video> videoList = repo.getVideoListByUserId(userId);
         assertFalse(videoList.isEmpty());
 
     }
 
-    @Test
-    public void testAllVideoList() {
-        List<Video> allVideo = repo.findAll();
-        assertThat(allVideo).isNotEmpty();
-        for(Video v: allVideo){
-            System.out.println(v.getUser().getChannelName());
-        }
-    }
+
 
     @Test
     public void testAllVideo() {
-        int pageSize = 2;
-        int pageNum = 3;
-        Pageable pageable = PageRequest.of(1, pageSize);
+        Pageable pageable = PageRequest.of(0, 5,
+                Sort.by(Sort.Direction.DESC, "createAt"));
 
 //        Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        Page<VideoUserProjection> allVideoProjection = repo.getAllVideo(pageable);
+        Page<VideoHomeDTO> videos = repo.getAllVideo(pageable);
 
-        assertThat(allVideoProjection).isNotEmpty();
-        List<VideoUserDTO> allVideo = allVideoProjection.stream().map(pro ->
-                new VideoUserDTO(pro.getVideoId(), pro.getTitle()
-                ,pro.getUserId(),pro.getChannelName(),pro.getPhotoUrl(),pro.getThumbnail())
-        ).toList();
-        for(VideoUserDTO v: allVideo){
+        assertThat(videos).isNotEmpty();
+//        List<VideoUserDTO> allVideo = allVideoProjection.stream().map(pro ->
+//                new VideoUserDTO(pro.getVideoId(), pro.getTitle()
+//                ,pro.getUserId(),pro.getChannelName(),pro.getPhotoUrl(),pro.getThumbnail())
+//        ).toList();
+        for(VideoHomeDTO v: videos){
             System.out.println(v.getTitle());
         }
     }
@@ -92,7 +84,7 @@ public class VideoRepositoryTests {
     @Test
     public void testGetVideoSpecifyColumnById() {
         String videoId = "08givmryRb6T13DoToJl8g";
-        VideoDetailUserProjection videoProjection = repo.getVideoByIdWithUserIDChannel(videoId);
+        VideoDetailProjection videoProjection = repo.getVideoDetail(videoId);
 
         assertThat(videoProjection).isNotNull();
         System.out.println(videoProjection.getDescription());
@@ -101,13 +93,17 @@ public class VideoRepositoryTests {
     @Test
     public void testGetVideoListByChannelName() {
         String channelName = "minhgiangnguyen";
-//        List<VideoChannelProjection> videos = repo.getVideosByChannelNameLatest(channelName);
+        Pageable pageable = PageRequest.of(0, 5,
+                Sort.by(Sort.Direction.DESC, "createAt"));
+        Page<VideoChannelDTO> videos = repo.getVideosByChannelName(channelName,pageable);
 
-//        assertThat(videos).isNotNull();
-//        for (VideoChannelProjection v : videos){
-//            System.out.println(v.toString());
-//        }
+        assertThat(videos).isNotEmpty();
+        for (VideoChannelDTO v : videos){
+            System.out.println(v.getTitle());
+        }
 
     }
+
+
 
 }

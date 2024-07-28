@@ -7,23 +7,24 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "Videos")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "videos")
 public class Video {
     @Id
     @Column(name = "video_id")
     private String videoId;
+
     @NotBlank
     @Size(min = 3, max=250)
     @Column(name = "title")
     private String title;
+
     @Column(name = "description")
     private String description;
 
@@ -43,8 +44,6 @@ public class Video {
     @ManyToOne
     @JoinColumn(name="user_id",insertable = false,updatable = false)
     private User user;
-
-
 
     @Transient
     public String getVideosPath() {

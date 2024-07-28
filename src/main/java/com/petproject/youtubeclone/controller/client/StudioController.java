@@ -2,7 +2,6 @@ package com.petproject.youtubeclone.controller.client;
 
 import com.petproject.youtubeclone.models.CustomUserDetails;
 import com.petproject.youtubeclone.models.Video;
-import com.petproject.youtubeclone.services.UserService;
 import com.petproject.youtubeclone.services.VideoService;
 import com.petproject.youtubeclone.utils.FileUploadUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -84,7 +83,7 @@ public class StudioController {
     }
     @GetMapping(value = { "studio/video/{videoId}/delete" })
     public String deleteVideo(@PathVariable(name = "videoId") String videoId) {
-        videoService.delete(videoId);
+        videoService.deleteVideoById(videoId);
         return "redirect:/studio/channel/";
     }
 

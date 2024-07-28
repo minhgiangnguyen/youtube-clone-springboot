@@ -1,6 +1,6 @@
 package com.petproject.youtubeclone.controller.client;
 
-import com.petproject.youtubeclone.models.projections.VideoDetailUserProjection;
+import com.petproject.youtubeclone.models.projections.VideoDetailProjection;
 import com.petproject.youtubeclone.services.VideoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,7 @@ public class VideoController {
 
     @GetMapping("/watch")
     public String video(@RequestParam("v") String id, Model model){
-        VideoDetailUserProjection video = service.getVideoById(id);
+        VideoDetailProjection video = service.getVideoById(id);
         if(video == null) return "home/404";
         model.addAttribute("video",video);
         return "home/video";
