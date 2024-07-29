@@ -30,7 +30,7 @@ public class ElasticSearchConfig extends ElasticsearchConfiguration {
                 .usingSsl(buildSSLContext())
                 .withBasicAuth("elastic","123456")
                 .withConnectTimeout(Duration.ofMillis(10000))
-                .withSocketTimeout(Duration.ofMillis(10000))
+                .withSocketTimeout(Duration.ofMillis(60000))
                 .build();
 
     }

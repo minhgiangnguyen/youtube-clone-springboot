@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/assets_home/home.css" />
+    <link rel="stylesheet" type="text/css" href="/assets_home/css/home.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 
@@ -40,14 +40,14 @@
                                                              width="40" height="40">
                                                     </a>
                                                 </div>
-                                                <div class="col-10" style="line-height:0">
-                                                    <a class="text-decoration-none" th:href="@{/watch?v={videoId}(videoId=${video.videoId})}">
+                                                <div class="col-10" >
+                                                    <a class=" text-decoration-none" th:href="@{/watch?v={videoId}(videoId=${video.videoId})}">
 
-                                                        <h6 class="card-title text-dark"
+                                                        <h6 class="m-0 card-title text-dark"
                                                             th:text="${video.title}" style="font-size: large;" ></h6>
                                                     </a>
-
                                                     <a class="card-text text-decoration-none text-muted" th:text="${video.channelName}" th:href="@{/{channelName}(channelName=${video.channelName})}" ></a>
+                                                    <p class="p-0 mb-2 card-text text-muted" th:text="${video.timeAgo}" style="font-size:15px"></p>
                                                 </div>
                                             </div>
 
@@ -71,6 +71,7 @@
         var baseUrl = /*[[${baseUrl}]]*/;
         var totalPage = /*[[${totalPage}]]*/;
     </script>
+    <script type="text/javascript" th:src="@{/assets_home/main.js}"></script>
     <script type="text/javascript" th:src="@{/assets_home/home.js}"></script>
 </body>
 </html>

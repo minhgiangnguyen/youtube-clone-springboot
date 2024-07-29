@@ -24,11 +24,13 @@ public class SearchController {
         String searchTrim = searchText.trim();
         Pair<Integer, List<VideoElastic>> pair =
                 service.searchVideo(searchTrim,1, pageSize);
-        List<VideoElastic> searchVideos = pair.getValue();
         int totalPage = pair.getKey();
+        List<VideoElastic> searchVideos = pair.getValue();
+
 
         model.addAttribute("searchVideos",searchVideos);
         return "home/search";
     }
+
 
 }

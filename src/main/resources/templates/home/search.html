@@ -8,7 +8,8 @@
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/assets_home/home.css" />
+    <link rel="stylesheet" type="text/css" href="/assets_home/css/home.css" />
+    <link rel="stylesheet" type="text/css" href="/assets_home/css/search.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 
@@ -22,38 +23,35 @@
             <div class="col-xl-2 col-lg-1">
                 <div th:replace="~{home/fragments/general.html::sidebar('show')}"></div>
             </div>
-            <div class="col-xl-10 col-lg-11 px-5" >
+            <div class="col-xl-10 col-lg-11 px-5 mt-2" >
                 <main>
                     <div id="searchVideos" class="">
                         <div>
                             <th:block th:each="video : ${searchVideos}">
 
-                                    <div class="mb-4 card" style="width: 60rem;border:none">
+                                    <div class="mb-4 search-item card" >
                                         <div class="row">
-                                            <div class="col-6">
+                                            <div class="col-6 pr-0">
                                                 <a th:href="@{/watch?v={videoId}(videoId=${video.videoId})}">
                                                     <img class="card-img-top" th:src="@{${video.thumbsPath}}" alt="Card image cap">
                                                 </a>
                                             </div>
                                             <div class="col-6">
-                                                <div class="card-body" style="padding: 0;padding-top: 15px;">
-
+                                                <div class="card-body p-0" >
 
                                                     <a class="text-decoration-none" th:href="@{/watch?v={videoId}(videoId=${video.videoId})}">
-
                                                         <h6 class="card-title text-dark"
                                                             th:text="${video.title}" style="font-size: large;" ></h6>
+                                                    <p class="p-0 mb-2 card-text text-muted" th:text="${video.timeAgo}" style="font-size:15px"></p>
                                                     </a>
-
                                                     <a th:href="@{/{channelName}(channelName=${video.channelName})}">
                                                         <img class="rounded-circle" th:src="@{${video.photosImagePath}}" alt="avatar"
                                                              width="40" height="40">
                                                     </a>
-
                                                     <a class="card-text text-decoration-none text-muted" th:text="${video.channelName}" th:href="@{/{channelName}(channelName=${video.channelName})}" ></a>
+                                                    <div id="description-search" th:utext="${video.description}">
 
-
-
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -72,12 +70,11 @@
         </div>
     </div>
 
-
-
     <script th:inline="javascript">
         var baseUrl = /*[[${baseUrl}]]*/;
         var totalPage = /*[[${totalPage}]]*/;
     </script>
-    <script type="text/javascript" th:src="@{/assets_home/home.js}"></script>
+    <script type="text/javascript" th:src="@{/assets_home/main.js}"></script>
+    <script type="text/javascript" th:src="@{/assets_home/search.js}"></script>
 </body>
 </html>

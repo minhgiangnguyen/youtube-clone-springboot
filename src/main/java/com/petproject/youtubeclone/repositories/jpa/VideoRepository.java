@@ -26,13 +26,13 @@ public interface VideoRepository  extends CrudRepository<Video,String> {
     boolean videoExists(String videoId);
 
     @Query(value = "SELECT new com.petproject.youtubeclone.models.dto.VideoHomeDTO("
-            + " v.videoId, v.title,v.thumbnail,u.userId, u.channelName,u.photoUrl)"
+            + " v.videoId, v.title,v.thumbnail,v.userId,v.createAt, u.channelName,u.photoUrl)"
             + " from Video v INNER JOIN v.user u"
     )
     Page<VideoHomeDTO> getAllVideo(Pageable pageable);
 
     @Query(value = "SELECT new com.petproject.youtubeclone.models.dto.VideoChannelDTO("
-            + " v.videoId, v.title,v.thumbnail,v.userId)"
+            + " v.videoId, v.title,v.thumbnail,v.userId,v.createAt)"
             + " from Video v INNER JOIN v.user u where u.channelName = ?1"
     )
     Page<VideoChannelDTO> getVideosByChannelName(String channelName, Pageable pageable);

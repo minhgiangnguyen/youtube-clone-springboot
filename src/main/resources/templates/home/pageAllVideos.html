@@ -12,14 +12,14 @@
                                  width="40" height="40">
                         </a>
                     </div>
-                    <div class="col-10" style="line-height:0">
+                    <div class="col-10">
                         <a class="text-decoration-none" th:href="@{/watch?v={videoId}(videoId=${video.videoId})}">
 
-                            <h6 class="card-title text-dark"
+                            <h6 class="m-0 card-title text-dark"
                                 th:text="${video.title}" style="font-size: large;" ></h6>
                         </a>
-
                         <a class="card-text text-decoration-none text-muted" th:text="${video.channelName}" th:href="@{/{channelName}(channelName=${video.channelName})}" ></a>
+                        <p class="p-0 mb-2 card-text text-muted" th:text="${video.timeAgo}" style="font-size:15px"></p>
                     </div>
                 </div>
 
