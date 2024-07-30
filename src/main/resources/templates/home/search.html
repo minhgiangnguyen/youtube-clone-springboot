@@ -29,29 +29,29 @@
                         <div>
                             <th:block th:each="video : ${searchVideos}">
 
-                                    <div class="mb-4 search-item card" >
-                                        <div class="row">
-                                            <div class="col-6 pr-0">
+                                    <div class="mb-4 card " style="border:none;">
+                                        <div class="search-item">
+                                            <div class="pr-0">
                                                 <a th:href="@{/watch?v={videoId}(videoId=${video.videoId})}">
-                                                    <img class="card-img-top" th:src="@{${video.thumbsPath}}" alt="Card image cap">
+                                                    <img class="card-img-top" th:src="@{${video.thumbsPath}}" alt="Card image cap" >
                                                 </a>
                                             </div>
-                                            <div class="col-6">
+                                            <div >
                                                 <div class="card-body p-0" >
-
                                                     <a class="text-decoration-none" th:href="@{/watch?v={videoId}(videoId=${video.videoId})}">
-                                                        <h6 class="card-title text-dark"
-                                                            th:text="${video.title}" style="font-size: large;" ></h6>
+                                                        <h5 class="card-title text-dark mb-0"
+                                                            th:text="${video.title}"  ></h5>
                                                     <p class="p-0 mb-2 card-text text-muted" th:text="${video.timeAgo}" style="font-size:15px"></p>
                                                     </a>
-                                                    <a th:href="@{/{channelName}(channelName=${video.channelName})}">
-                                                        <img class="rounded-circle" th:src="@{${video.photosImagePath}}" alt="avatar"
-                                                             width="40" height="40">
-                                                    </a>
-                                                    <a class="card-text text-decoration-none text-muted" th:text="${video.channelName}" th:href="@{/{channelName}(channelName=${video.channelName})}" ></a>
-                                                    <div id="description-search" th:utext="${video.description}">
+                                                    <a class="card-text text-decoration-none text-muted" th:href="@{/{channelName}(channelName=${video.channelName})}">
 
-                                                    </div>
+                                                            <img class="rounded-circle my-1" th:src="@{${video.photosImagePath}}" alt="avatar"
+                                                                 width="40" height="40">
+
+                                                        <span
+                                                              th:text="${video.channelName}"></span>
+                                                    </a>
+                                                    <div class="p-0 mb-2 card-text text-muted" th:utext="${video.description}" style="font-size:15px"></div>
                                                 </div>
                                             </div>
                                         </div>

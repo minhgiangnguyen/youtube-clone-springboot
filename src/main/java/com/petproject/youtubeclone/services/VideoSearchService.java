@@ -26,9 +26,9 @@ public class VideoSearchService {
         int totalPage = videos.getTotalPages();
         videos.getContent().stream().peek(video -> {
             String desc = video.getDescription();
-            if(desc.length()>125){
-                String newTitle = YoutubeUtil.subTitle(desc,125);
-                video.setDescription(newTitle);
+            if(desc.length()>110){
+                String newDesc= YoutubeUtil.subDesc(desc,110);
+                video.setDescription(newDesc);
             }
         }).toList();
         return new Pair<Integer,List<VideoElastic>>(totalPage,videos.getContent());
