@@ -22,9 +22,9 @@
             <div class="col-xl-2 col-lg-1">
                 <div th:replace="~{home/fragments/general.html::sidebar('show')}"></div>
             </div>
-            <div class="col-xl-10 col-lg-11 px-5" >
+            <div class="col-xl-10 col-lg-11 px-5 " >
                 <main>
-                    <div id="allVideo" class="row">
+                    <div class="videos row">
                         <div class="card-deck">
                             <th:block th:each="video : ${pageVideos}">
                                 <div class="col-xl-4 col-lg-6 col-md-6 mb-5 px-0" >

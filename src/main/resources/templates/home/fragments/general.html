@@ -19,12 +19,15 @@
                 </a>
             </div>
 
-            <div id="search-bar"  >
+            <div id="search-bar" >
                 <form class="form-inline" th:action="@{/results}" method="get">
+
                     <div class="input-group">
-                        <input type="search" class="form-control " placeholder="Search..." name="search_query" />
+                        <input  type="search" class="form-control "
+                               placeholder="Search..." name="search_query" />
+
                         <div class="input-group-prepend">
-                            <button class="btn input-group-text" type="button">
+                            <button class="btn input-group-text" type="submit">
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>

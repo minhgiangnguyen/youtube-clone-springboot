@@ -11,3 +11,7 @@ var widthResize = $(window).width();
     $("#collapseSidebar").removeClass("show");
   }
 });
+
+const loaderContent= '<div id="loaderContent" class="loaderContent mt-3 d-flex justify-content-center">'
+                        +'<div class="loader"></div>'
+                         +'</div>';

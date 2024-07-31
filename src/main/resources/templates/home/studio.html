@@ -101,6 +101,7 @@
         </div>
     </div>
     <script th:inline="javascript">
+        $("#search-bar").remove();
         CKEDITOR.replace('description')
         $('#uploadVideo').modal(/*[[${modalForm}]]*/)
         $(document).ready( function () {

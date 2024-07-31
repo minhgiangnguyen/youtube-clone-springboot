@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <title>Youtube</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/assets_home/images/youtube-favicon.ico}">
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/assets_home/css/home.css" />
+    <link rel="stylesheet" type="text/css" href="/assets_home/css/search.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+</head>
+<body>
+    <div th:replace="~{home/fragments/general.html::
+     topbar('/assets_home/images/Youtube-logo.jpg','/')}"></div>
+
+    <div class="container-fluid" style="margin-top:73px">
+        <div class="row">
+            <div class="col-xl-2 col-lg-1">
+                <div th:replace="~{home/fragments/general.html::sidebar('show')}"></div>
+            </div>
+            <div class="col-xl-10 col-lg-11 px-5 mt-2" >
+                <main>
+                    <div class="videos">
+                        <th:block th:each="video : ${searchVideos}">
+                                <div class="mb-4 card " style="border:none;">
+                                    <div class="search-item">
+                                        <div class="pr-0">
+                                            <a th:href="@{/watch?v={videoId}(videoId=${video.videoId})}">
+                                                <img class="card-img-top" th:src="@{${video.thumbsPath}}" alt="Card image cap" >
+                                            </a>
+                                        </div>
+                                        <div >
+                                            <div class="card-body p-0" >
+                                                <a class="text-decoration-none" th:href="@{/watch?v={videoId}(videoId=${video.videoId})}">
+                                                    <h5 class="card-title text-dark mb-0"
+                                                        th:text="${video.title}"  ></h5>
+                                                    <p class="time-ago p-0 mb-2 card-text text-muted" th:text="${video.timeAgo}" style="font-size:15px"></p>
+                                                </a>
+                                                <a class="card-text text-decoration-none text-muted" th:href="@{/{channelName}(channelName=${video.channelName})}">
+
+                                                        <img class="rounded-circle my-1" th:src="@{${video.photosImagePath}}" alt="avatar"
+                                                             width="40" height="40">
+
+                                                    <span
+                                                          th:text="${video.channelName}"></span>
+                                                </a>
+                                                <div class="description p-0 mb-2 card-text text-muted" th:utext="${video.description}" style="font-size:15px"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                        </th:block>
+
+                    </div>
+<!--                    <div id="loaderContent" class="mt-3 d-flex justify-content-center">-->
+<!--                        <div class="loader"></div>-->
+<!--                    </div>-->
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        var baseUrl = /*[[${baseUrl}]]*/;
+        var totalPage = /*[[${totalPage}]]*/;
+        var keyword = /*[[${keyword}]]*/;
+        console.log(keyword);
+        $("input[name='search_query'").val(keyword);
+
+    </script>
+    <script type="text/javascript" th:src="@{/assets_home/main.js}"></script>
+    <script type="text/javascript" th:src="@{/assets_home/search.js}"></script>
+</body>
+</html>
