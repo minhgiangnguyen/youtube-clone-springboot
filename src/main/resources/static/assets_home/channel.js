@@ -1,17 +1,3 @@
-var width = $(window).width();
-if(width >= 1200)
-    $("#collapseSidebar").addClass("show");
-else
-    $("#collapseSidebar").removeClass("show");
-$(window).resize(function() {
-    var widthResize = $(window).width();
-    if(widthResize >= 1200){
-      $("#collapseSidebar").addClass("show");
-    }else{
-      $("#collapseSidebar").removeClass("show");
-
-    }
-});
 
 $('#slickVideos').slick({
   infinite: false,
@@ -75,9 +61,6 @@ function sortVideos(event,sortType){
 
 }
 
-const loaderContent= '<div id="loaderContent" class="loaderContent mt-3 d-flex justify-content-center">'
-                        +'<div class="loader"></div>'
-                         +'</div>';
 
 var isAtBottom = false;
 var sortType = $("#btn-sort-latest").hasClass("btn-dark")?"latest":"oldest";

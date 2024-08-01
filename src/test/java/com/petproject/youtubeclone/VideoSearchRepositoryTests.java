@@ -25,11 +25,11 @@ public class VideoSearchRepositoryTests {
     @Test
     public void testSearchVideo() {
         Pageable pageable = PageRequest.of(0, 1);
-        String title = "batman";
+        String title = "a";
         Page<VideoElastic> searchVideos = repo.findByTitleContaining(title,pageable);
         assertThat(searchVideos).isNotEmpty();
         for (VideoElastic v : searchVideos){
-            System.out.println(v.getTitle());
+            System.out.println(v.getTimeAgo());
         }
 
     }

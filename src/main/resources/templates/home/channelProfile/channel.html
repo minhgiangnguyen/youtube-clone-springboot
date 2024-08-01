@@ -7,8 +7,8 @@
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" th:href="@{/assets_home/home.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/assets_home/channel.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets_home/css/home.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets_home/css/channel.css}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Add the slick-theme.css if you want default styling -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
@@ -78,6 +78,7 @@
     var totalPage = /*[[${totalPage}]]*/;
 
 </script>
+<script th:src="@{/assets_home/main.js}"></script>
 <script th:src="@{/assets_home/channel.js}"></script>
 
 </body>

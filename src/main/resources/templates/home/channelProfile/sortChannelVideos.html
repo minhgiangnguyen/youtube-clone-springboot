@@ -6,9 +6,10 @@
             </a>
             <div class="card-body px-0 pt-1 ">
                 <a class="text-decoration-none" th:href="@{/watch?v={videoId}(videoId=${video.videoId})}">
-                    <h6 class="card-title "
+                    <h6 class="card-title m-0"
                         th:text="${video.title}"
                         style="font-size: 0.9rem;line-height: 1.1rem;font-weight: 500;color:#0f0f0f" ></h6>
+                    <p class="p-0 mb-2 card-text text-muted" th:text="${video.timeAgo}" style="font-size:15px"></p>
                 </a>
             </div>
         </div>

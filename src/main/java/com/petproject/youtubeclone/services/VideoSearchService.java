@@ -3,6 +3,7 @@ package com.petproject.youtubeclone.services;
 import com.petproject.youtubeclone.models.VideoElastic;
 import com.petproject.youtubeclone.models.dto.VideoChannelDTO;
 import com.petproject.youtubeclone.repositories.elasticsearch.VideoSearchRepository;
+import com.petproject.youtubeclone.utils.YoutubeUtil;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,7 +24,13 @@ public class VideoSearchService {
                 Sort.by(Sort.Direction.ASC, "createAt"));
         Page<VideoElastic> videos = repo.findByTitleContaining(searchTxt,pageable);
         int totalPage = videos.getTotalPages();
-
+        videos.getContent().stream().peek(video -> {
+            String desc = video.getDescription();
+            if(desc.length()>110){
+                String newDesc= YoutubeUtil.subDesc(desc,110);
+                video.setDescription(newDesc);
+            }
+        }).toList();
         return new Pair<Integer,List<VideoElastic>>(totalPage,videos.getContent());
     }
 }

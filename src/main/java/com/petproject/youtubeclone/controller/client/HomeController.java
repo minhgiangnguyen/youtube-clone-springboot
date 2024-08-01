@@ -23,14 +23,7 @@ import java.util.List;
 public class HomeController {
     @Autowired
     private VideoService service;
-//    @GetMapping("/{url}")
-//    public String catch404(@PathVariable("url")String url){
-//        String[] urlArr = new String[]{"home","register","webjars","assets_home","assets_admin",
-//        "user-videos","user-photos","videos","channels"};
-//
-//        if(!Arrays.asList(urlArr).contains(url)) return "home/404";
-//        return "redirect:/"+url;
-//    }
+
     int pageSize=6;
     @GetMapping(value = { "/" })
     public String index(Model model, HttpServletRequest request) {
@@ -44,10 +37,10 @@ public class HomeController {
         int totalPage = pair.getKey();
         pageVideos.stream().peek(video -> {
             String title = video.getTitle();
-         if(title.length()>58){
-             String newTitle = YoutubeUtil.subTitle(title,58);
-            video.setTitle(newTitle);
-         }
+            if(title.length()>58){
+                String newTitle = YoutubeUtil.subTitle(title,58);
+                video.setTitle(newTitle);
+            }
         }).toList();
         System.out.println(pageVideos.isEmpty());
         model.addAttribute("pageVideos",pageVideos);
