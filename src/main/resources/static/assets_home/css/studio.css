@@ -1,14 +1,14 @@
-#topbar{
+#topbarStudio{
     padding-top:10px;
     padding-bottom:10px
 }
-#youtube-logo{
+#studio-logo{
     margin-left:0px;
 }
-#youtube-logo button{
+#studio-logo button{
     border:none;
 }
-#youtube-logo a{
+#studio-logo a{
     margin-left:10px;
 }
  #search-bar {

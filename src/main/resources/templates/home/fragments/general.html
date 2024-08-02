@@ -10,6 +10,9 @@
     <nav id="topbar" class="navbar navbar-expand-xl navbar-light bg-light fixed-top" >
         <div class="container-fluid">
             <div id="youtube-logo"  >
+                <button id="btn-prev" class="btn col-4 d-none" type="submit">
+                    <i class="fa fa-arrow-left" ></i>
+                </button>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapseSidebar"
                         aria-controls="collapseSidebar" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -19,9 +22,8 @@
                 </a>
             </div>
 
-            <div id="search-bar" >
+            <div id="search-bar" class="">
                 <form class="form-inline" th:action="@{/results}" method="get">
-
                     <div class="input-group">
                         <input  type="search" class="form-control "
                                placeholder="Search..." name="search_query" />
@@ -36,44 +38,55 @@
             </div>
 
                 <div sec:authorize="isAnonymous()" th:remove="tag">
-                    <a class="d-flex justify-content-end" th:href="@{/login}">Login</a>
+                    <div class="right-content row">
+                        <button id="btn-search" class="btn col-6" >
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <a class="d-flex justify-content-end " th:href="@{/login}">Login</a>
+                    </div>
+
                 </div>
                 <div  sec:authorize="isAuthenticated()" th:remove="tag">
-                    <a th:if="${#authentication.principal.userId}"
-                       th:href="@{'/studio/channel/' + ${#authentication.principal.userId}}"
-                       class="camera-link" title="Upload">
-                        <i class="fas fa-video"></i>
-                    </a>
-                    <div class="dropdown">
-                        <div class="dropdown show dropleft" >
-                            <a class="btn  dropdown-toggle" href="#" role="button"
-                               id="profileUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                               style="color: black, background-color:white, border:none">
-                                <img class="rounded-circle" th:if="${#authentication.principal.photosImagePath}"
-                                     th:src="${#authentication.principal.photosImagePath}"
-                                     alt="avatar" width="30" height="30"/>
-                            </a>
+                    <div class="right-content row">
+                        <button id="btn-search" class="btn col-4 d-none" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <a th:if="${#authentication.principal.userId}"
+                           th:href="@{'/studio/channel/' + ${#authentication.principal.userId}}"
+                           class="camera-link col-4 " title="Upload">
+                            <i class="fas fa-video"></i>
+                        </a>
+                        <div class="dropdown col-4 pl-0 pr-3 ">
+                            <div class="dropdown show dropleft" >
+                                <a class="btn py-1 dropdown-toggle" href="#" role="button"
+                                   id="profileUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                   style="color: black, background-color:white, border:none">
+                                    <img class="rounded-circle" th:if="${#authentication.principal.photosImagePath}"
+                                         th:src="${#authentication.principal.photosImagePath}"
+                                         alt="avatar" width="30" height="30"/>
+                                </a>
 
-                            <!--Dropdown profile-->
-                            <div class="dropdown-menu" aria-labelledby="profileUser" >
-                                <div class="dropdown-header">
-                                    <div class="row">
-                                        <div class="col-3">
-                                            <img class="rounded-circle" th:if="${#authentication.principal.photosImagePath}"
-                                                 th:src="${#authentication.principal.photosImagePath}"
-                                                 alt="avatar" width="50" height="50"/>
-                                        </div>
-                                        <div class="col-9">
-                                            <h5 sec:authentication="principal.channelName"></h5>
-                                            <a th:if="${#authentication.principal.channelName}"
-                                               th:href="@{'/' + ${#authentication.principal.channelName}}">
-                                                View your channel
-                                            </a>
+                                <!--Dropdown profile-->
+                                <div class="dropdown-menu" aria-labelledby="profileUser" >
+                                    <div class="dropdown-header">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                <img class="rounded-circle" th:if="${#authentication.principal.photosImagePath}"
+                                                     th:src="${#authentication.principal.photosImagePath}"
+                                                     alt="avatar" width="50" height="50"/>
+                                            </div>
+                                            <div class="col-9">
+                                                <h5 sec:authentication="principal.channelName"></h5>
+                                                <a th:if="${#authentication.principal.channelName}"
+                                                   th:href="@{'/' + ${#authentication.principal.channelName}}">
+                                                    View your channel
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/logout">Log out</a>
                                 </div>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/logout">Log out</a>
                             </div>
                         </div>
                     </div>
@@ -82,6 +95,8 @@
         </div>
     </nav>
 </div>
+
+
 
 <div th:fragment="sidebar (showSidebar)">
     <div th:class="'collapse '+ ${showSidebar} +' navbar-collapse'" id="collapseSidebar">
