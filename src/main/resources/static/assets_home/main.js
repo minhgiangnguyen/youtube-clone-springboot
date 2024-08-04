@@ -16,8 +16,9 @@ $("#btn-search").click(function(){
     $("#btn-search").addClass("d-none");
      $("#search-bar").removeClass("d-none");
      $(".right-content").addClass("d-none");
-     $(".navbar-toggler").addClass("d-none");
-     $(".navbar-brand").addClass("d-none");
+//     $(".navbar-toggler").addClass("d-none");
+//     $(".navbar-brand").addClass("d-none");
+$("#youtube-logo").addClass("d-none");
      $("#btn-prev").removeClass("d-none");
      $("#topbar").addClass("pt-3");
  });
@@ -25,8 +26,9 @@ $("#btn-search").click(function(){
  $("#btn-prev").click(function(){
       $("#search-bar").addClass("d-none");
        $(".right-content").removeClass("d-none");
-       $(".navbar-toggler").removeClass("d-none");
-       $(".navbar-brand").removeClass("d-none");
+//       $(".navbar-toggler").removeClass("d-none");
+//       $(".navbar-brand").removeClass("d-none");
+       $("#youtube-logo").removeClass("d-none");
        $("#btn-prev").addClass("d-none");
        $("#topbar").removeClass("pt-3");
        $("#btn-search").removeClass("d-none");
@@ -48,8 +50,9 @@ if(width>=650){
    $("#btn-search").addClass("d-none");
    $("#search-bar").removeClass("d-none");
    $(".right-content").removeClass("d-none");
-   $(".navbar-toggler").removeClass("d-none");
-   $(".navbar-brand").removeClass("d-none");
+//   $(".navbar-toggler").removeClass("d-none");
+//   $(".navbar-brand").removeClass("d-none");
+$("#youtube-logo").removeClass("d-none");
    $("#btn-prev").addClass("d-none");
    $("#topbar").removeClass("pt-3");
 }
@@ -70,8 +73,9 @@ var widthResize = $(window).width();
        $("#btn-search").addClass("d-none");
        $("#search-bar").removeClass("d-none");
        $(".right-content").removeClass("d-none");
-       $(".navbar-toggler").removeClass("d-none");
-       $(".navbar-brand").removeClass("d-none");
+//       $(".navbar-toggler").removeClass("d-none");
+//       $(".navbar-brand").removeClass("d-none");
+    $("#youtube-logo").removeClass("d-none");
        $("#btn-prev").addClass("d-none");
        $("#topbar").removeClass("pt-3");
   }

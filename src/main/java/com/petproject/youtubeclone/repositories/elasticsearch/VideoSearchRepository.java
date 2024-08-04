@@ -12,6 +12,6 @@ import java.util.List;
 @Repository
 public interface VideoSearchRepository extends ElasticsearchRepository<VideoElastic,String> {
 
-    Page<VideoElastic> findByTitleContaining(String searchText, Pageable pageable);
+    List<VideoElastic> findByTitleContaining(String title);
 
 }

@@ -33,4 +33,9 @@ public class YoutubeUtil {
         }
         return newDesc.toString();
     }
+    public static String contentDesc(String desc) {
+        String regex = "<[^>]*>";
+        return desc.replaceAll(regex,"").trim( );
+
+    }
 }

@@ -39,18 +39,10 @@ public class VideoHomeDTO {
     @Transient
     public String getTimeAgo() {
         LocalDateTime now= LocalDateTime.now();
-        int minute = createAt.getMinute();
-        int hour = createAt.getHour();
-//        int dayMonth = createAt.getDayOfMonth();
-//        int dayYear = createAt.getDayOfYear();
-//        int month = createAt.getMonthValue();
-//        int year = createAt.getYear();
         Period period = Period.between(createAt.toLocalDate(),now.toLocalDate());
         int yearAgo = period.getYears();
         int monthAgo = period.getMonths();
         int dayAgo = period.getDays();
-//        int hourAgo = duration.toHours();
-
 
 
         if(yearAgo>0){
@@ -71,22 +63,6 @@ public class VideoHomeDTO {
             Duration duration = Duration.between(createAt, now);
             int hourAgo=(int) duration.toHours();
             int minuteAgo=(int)duration.toMinutes();
-//                int hourAgo = now.getHour()-hour;
-//                int minuteAgo = 60-minute-now.getMinute();
-//                if(hourAgo==0){
-//                    int minuteAgo = now.getMinute()-minute;
-//                    return minuteAgo==1 ?Integer.toString(minuteAgo).replace("-","")+" minute ago":
-//                            Integer.toString(minuteAgo).replace("-","")+" minutes ago";
-//                }
-//                if(hourAgo==1 && minute>now.getMinute()){
-//                    int minuteAgo = 60-minute-now.getMinute();
-//                    return minuteAgo==1 ?Integer.toString(minuteAgo).replace("-","")+" minute ago":
-//                            Integer.toString(minuteAgo).replace("-","")+" minutes ago";
-//                }
-//                if(hourAgo>=1 && minute<=now.getMinute()){
-//                    return hourAgo==1 ?Integer.toString(hourAgo).replace("-","")+" hour ago":
-//                            Integer.toString(hourAgo).replace("-","")+" hours ago";
-//                }
             if(hourAgo>0){
                 return hourAgo==1 ?Integer.toString(hourAgo).replace("-","")+" hour ago":
                             Integer.toString(hourAgo).replace("-","")+" hours ago";
