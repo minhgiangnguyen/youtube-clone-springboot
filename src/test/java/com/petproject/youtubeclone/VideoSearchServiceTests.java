@@ -2,7 +2,6 @@ package com.petproject.youtubeclone;
 
 import com.petproject.youtubeclone.models.VideoElastic;
 import com.petproject.youtubeclone.services.VideoSearchService;
-import javafx.util.Pair;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
