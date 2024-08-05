@@ -6,7 +6,6 @@ import com.petproject.youtubeclone.services.UserService;
 import com.petproject.youtubeclone.services.VideoService;
 import com.petproject.youtubeclone.utils.YoutubeUtil;
 import jakarta.servlet.http.HttpServletRequest;
-import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
