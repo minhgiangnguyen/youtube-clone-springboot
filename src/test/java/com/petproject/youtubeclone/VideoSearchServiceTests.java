@@ -23,12 +23,11 @@ public class VideoSearchServiceTests {
     public void testSearchVideoService() {
         String title = "Zirkzee Ten Hag";
         String desc = "Zirkzee Ten Hag";
-        Pair<Integer, List<VideoElastic>> pair = service.searchVideo(title,1,12);
-        assertThat(pair.getValue()).isNotEmpty();
-        for (VideoElastic v : pair.getValue()){
+        Page<VideoElastic> page = service.searchVideo(title,1,12);
+        assertThat(page.getContent()).isNotEmpty();
+        for (VideoElastic v : page.getContent()){
             System.out.println(v.getTitle());
         }
-        System.out.println(pair.getKey());
     }
 
 }

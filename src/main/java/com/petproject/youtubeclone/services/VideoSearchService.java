@@ -1,23 +1,20 @@
 package com.petproject.youtubeclone.services;
 
 import com.petproject.youtubeclone.models.VideoElastic;
-import com.petproject.youtubeclone.models.dto.VideoChannelDTO;
 import com.petproject.youtubeclone.repositories.elasticsearch.VideoSearchRepository;
 import com.petproject.youtubeclone.utils.YoutubeUtil;
-import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 @Service
 public class VideoSearchService {
     @Autowired
     private VideoSearchRepository repo;
 
-    public Pair<Integer, List<VideoElastic>> searchVideo(String searchTxt, int pageNum, int pageSize){
+    public Page<VideoElastic> searchVideo(String searchTxt, int pageNum, int pageSize){
         Pageable pageable = PageRequest.of(pageNum-1, pageSize,
                 Sort.by(Sort.Direction.ASC, "createAt"));
        String[] arrKeyword = searchTxt.trim().split(" ");
@@ -61,7 +58,6 @@ public class VideoSearchService {
             }
         }).toList();
 
-        int totalPage = newVideos.getTotalPages();
-        return new Pair<Integer,List<VideoElastic>>(totalPage,newVideos.getContent());
+        return newVideos;
     }
 }
