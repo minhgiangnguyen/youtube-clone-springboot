@@ -6,13 +6,11 @@ import com.petproject.youtubeclone.repositories.elasticsearch.VideoSearchReposit
 import com.petproject.youtubeclone.utils.YoutubeUtil;
 import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Stream;
 
 @Service
 public class VideoSearchService {
@@ -22,15 +20,48 @@ public class VideoSearchService {
     public Pair<Integer, List<VideoElastic>> searchVideo(String searchTxt, int pageNum, int pageSize){
         Pageable pageable = PageRequest.of(pageNum-1, pageSize,
                 Sort.by(Sort.Direction.ASC, "createAt"));
-        Page<VideoElastic> videos = repo.findByTitleContaining(searchTxt,pageable);
-        int totalPage = videos.getTotalPages();
-        videos.getContent().stream().peek(video -> {
+       String[] arrKeyword = searchTxt.trim().split(" ");
+//        Page<VideoElastic> newVideos =Page.empty(pageable);
+        Map<String,Integer> videoCount  = new HashMap<>();
+        @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+        List<VideoElastic> concatVideos = new ArrayList<>();
+
+        for(String keyword : arrKeyword){
+            List<VideoElastic> videos = repo.findByTitleContaining(keyword.trim());
+            concatVideos.addAll(videos);
+//            Stream.concat(concatVideos.stream(),videos.stream()).toList();
+        }
+        concatVideos.forEach(video ->
+                videoCount.merge(video.getVideoId(), 1, Integer::sum)
+        );
+        List<VideoElastic> searchVideos = concatVideos.stream()
+                .filter(video -> videoCount.get(video.getVideoId()) == arrKeyword.length)
+                .distinct()
+                .toList();
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), searchVideos.size());
+
+        List<VideoElastic> pageVideo = searchVideos.subList(start, end);
+        Page<VideoElastic> newVideos = new PageImpl<>(pageVideo, pageable, searchVideos.size());
+
+//        videos.getContent().stream().filter(video -> {
+//            String desc = video.getDescription();
+//            String title = video.getTitle();
+//            String contentDesc = YoutubeUtil.contentDesc(desc);
+//            System.out.println(title.contains(searchTxt));
+//            System.out.println(contentDesc.contains(searchTxt));
+//            return title.contains(searchTxt) || contentDesc.contains(searchTxt);
+//        }).toList();
+        newVideos.getContent().stream().peek(video -> {
             String desc = video.getDescription();
             if(desc.length()>110){
                 String newDesc= YoutubeUtil.subDesc(desc,110);
                 video.setDescription(newDesc);
             }
         }).toList();
-        return new Pair<Integer,List<VideoElastic>>(totalPage,videos.getContent());
+
+        int totalPage = newVideos.getTotalPages();
+        return new Pair<Integer,List<VideoElastic>>(totalPage,newVideos.getContent());
     }
 }

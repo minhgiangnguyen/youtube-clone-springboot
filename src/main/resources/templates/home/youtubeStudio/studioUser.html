@@ -15,13 +15,13 @@
     <script type="text/javascript" th:src="@{/assets_home/studio.js}"></script>
 </head>
 <body>
-    <div th:replace="~{home/fragments/general.html::
+    <div th:replace="~{home/youtubeStudio/generalStudio.html::
     topbar('/assets_home/images/Youtube-studio-logo.png','/studio/channel/'+${id})}"></div>
 
     <div class="container-fluid" style="margin-top:75px">
         <div class="row" style="height:900px">
             <div class="col-2" >
-                <div th:replace="~{home/fragments/sidebarStudio.html::sidebar}"></div>
+                <div th:replace="~{home/youtubeStudio/generalStudio.html::sidebar}"></div>
             </div>
             <div class="col-10" style="padding:10px">
                 <div class="w-100">
@@ -101,7 +101,6 @@
         </div>
     </div>
     <script th:inline="javascript">
-        $("#search-bar").remove();
         CKEDITOR.replace('description')
         $('#uploadVideo').modal(/*[[${modalForm}]]*/)
         $(document).ready( function () {

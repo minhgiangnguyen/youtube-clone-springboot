@@ -38,7 +38,9 @@ public class SearchController {
                 service.searchVideo(searchTrim,1, pageSize);
         int totalPage = pair.getKey();
         List<VideoElastic> searchVideos = pair.getValue();
-
+        for(VideoElastic video : searchVideos){
+            System.out.println(video.getTitle());
+        }
         model.addAttribute("baseUrl",baseUrl);
         model.addAttribute("totalPage", totalPage);
         model.addAttribute("searchVideos",searchVideos);

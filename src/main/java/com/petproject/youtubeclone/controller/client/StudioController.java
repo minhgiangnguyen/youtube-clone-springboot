@@ -59,7 +59,7 @@ public class StudioController {
         model.addAttribute("newVideo",video);
         model.addAttribute("videoList",videoList);
         model.addAttribute("modalForm","hide");
-        return "home/studio";
+        return "home/youtubeStudio/studioUser";
     }
     @GetMapping(value = {"studio/video/{id}/edit","studio/video/{id}/","studio/video/{id}"})
     public String editVideo(@PathVariable("id") String id,Model model, HttpServletRequest request) {
@@ -79,7 +79,7 @@ public class StudioController {
         Video video = videoService.get(id);
         model.addAttribute("video",video);
         model.addAttribute("baseUrl",baseUrl);
-        return "home/editVideo";
+        return "home/youtubeStudio/editVideo";
     }
     @GetMapping(value = { "studio/video/{videoId}/delete" })
     public String deleteVideo(@PathVariable(name = "videoId") String videoId) {
@@ -101,17 +101,17 @@ public class StudioController {
             model.addAttribute("errorThumb","You have not uploaded the Thumbnail yet");
             model.addAttribute("modalForm","show");
             model.addAttribute("videoList",videoService.getVideoListByUserId(id));
-            return "home/studio";
+            return "home/youtubeStudio/studioUser";
         }else if(videoFile.isEmpty()){
             model.addAttribute("errorVideo","You have not uploaded the Video yet");
             model.addAttribute("modalForm","show");
             model.addAttribute("videoList",videoService.getVideoListByUserId(id));
-            return "home/studio";
+            return "home/youtubeStudio/studioUser";
         }else if(thumbFile.isEmpty()){
             model.addAttribute("errorThumb","You have not uploaded the Thumbnail yet");
             model.addAttribute("modalForm","show");
             model.addAttribute("videoList",videoService.getVideoListByUserId(id));
-            return "home/studio";
+            return "home/youtubeStudio/studioUser";
         }else {
             System.out.println("ERROR TYPE");
             if(!Arrays.asList(imageType).contains(thumbFile.getContentType())
@@ -120,32 +120,32 @@ public class StudioController {
                 model.addAttribute("errorThumb","Invalid image type. Allowed types are .jpg, .jpeg, .png");
                 model.addAttribute("modalForm","show");
                 model.addAttribute("videoList",videoService.getVideoListByUserId(id));
-                return "home/studio";
+                return "home/youtubeStudio/studioUser";
             }
             if(!Arrays.asList(videoType).contains(videoFile.getContentType()) ) {
                 model.addAttribute("errorVideo","Invalid video type. Allowed types are .mp4, .avi");
                 model.addAttribute("modalForm","show");
                 model.addAttribute("videoList",videoService.getVideoListByUserId(id));
-                return "home/studio";
+                return "home/youtubeStudio/studioUser";
             }
             if(!Arrays.asList(imageType).contains(thumbFile.getContentType())) {
                 model.addAttribute("errorThumb","Invalid image type. Allowed types are .jpg, .jpeg, .png");
                 model.addAttribute("modalForm","show");
                 model.addAttribute("videoList",videoService.getVideoListByUserId(id));
-                return "home/studio";
+                return "home/youtubeStudio/studioUser";
             }
 
             if(videoFile.getSize()> 1024 * 1024 * 1024 ){
                 model.addAttribute("errorVideo","Video not upload more than 1 GB");
                 model.addAttribute("modalForm","show");
                 model.addAttribute("videoList",videoService.getVideoListByUserId(id));
-                return "home/studio";
+                return "home/youtubeStudio/studioUser";
             }
             if(thumbFile.getSize()> 1024 * 1024 * 5 ){
                 model.addAttribute("errorThumb","Thumbnail not upload more than 5 MB");
                 model.addAttribute("modalForm","show");
                 model.addAttribute("videoList",videoService.getVideoListByUserId(id));
-                return "home/studio";
+                return "home/youtubeStudio/studioUser";
             }
         }
         System.out.println("NO ERROR TYPE");
@@ -180,12 +180,12 @@ public class StudioController {
             if(!Arrays.asList(imageType).contains(thumbFile.getContentType())) {
                 model.addAttribute("errorThumb","Invalid image type. Allowed types are .jpg, .jpeg, .png");
                 model.addAttribute("modalForm","show");
-                return "home/studio";
+                return "home/youtubeStudio/studioUser";
             }
             if(thumbFile.getSize()> 1024 * 1024 * 10){
                 model.addAttribute("err","Image not upload more than 10 mb");
                 model.addAttribute("modalForm","show");
-                return "home/studio";
+                return "home/youtubeStudio/studioUser";
             }
             String thumbFileName = StringUtils.cleanPath(thumbFile.getOriginalFilename());
             String uploadDir = "user-videos/" + video.getUserId();
@@ -205,7 +205,8 @@ public class StudioController {
         model.addAttribute("video",video);
         model.addAttribute("baseUrl",baseUrl);
         model.addAttribute("alert"," ");
-        return "home/editVideo";
+        return "home/youtubeStudio/editVideo";
+
     }
 
 //    @GetMapping(value = {"studio/channel/{id}/{url}"})

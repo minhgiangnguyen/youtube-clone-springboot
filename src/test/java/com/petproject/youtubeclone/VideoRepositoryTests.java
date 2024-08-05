@@ -65,7 +65,7 @@ public class VideoRepositoryTests {
 
     @Test
     public void testAllVideo() {
-        Pageable pageable = PageRequest.of(0, 5,
+        Pageable pageable = PageRequest.of(0, 12,
                 Sort.by(Sort.Direction.DESC, "createAt"));
 
 //        Pageable pageable = PageRequest.of(pageNumber, pageSize);
@@ -77,7 +77,7 @@ public class VideoRepositoryTests {
 //                ,pro.getUserId(),pro.getChannelName(),pro.getPhotoUrl(),pro.getThumbnail())
 //        ).toList();
         for(VideoHomeDTO v: videos){
-            System.out.println(v.getTitle());
+            System.out.println(v.getTimeAgo());
         }
     }
 
