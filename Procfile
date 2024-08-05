@@ -1,1 +1,1 @@
-web: java -jar -Dserver.port=$PORT build/libs/db_youtubeclone-0.0.1-SNAPSHOT.jar
+web: java -Dserver.port=$PORT $JAVA_OPTS -jar target/*jar
