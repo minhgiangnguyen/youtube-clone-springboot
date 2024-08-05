@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import javafx.util.Pair;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -59,27 +58,20 @@ public class VideoService {
     }
 
     //Home page
-    public Pair<Integer,List<VideoHomeDTO>> getAllVideo(int pageNum, int pageSize) {
+    public Page<VideoHomeDTO> getAllVideo(int pageNum, int pageSize) {
         Pageable pageable = PageRequest.of(pageNum-1, pageSize, Sort.by(Sort.Direction.DESC, "createAt"));
-        Page<VideoHomeDTO> videos = repo.getAllVideo(pageable);
-        int totalPage = videos.getTotalPages();
-
-        return new Pair<Integer,List<VideoHomeDTO>>(totalPage,videos.getContent());
+        return repo.getAllVideo(pageable);
 
     }
 
-    public Pair<Integer,List<VideoChannelDTO>>  getAllVideoByChannelNameLatest(String channelName,int pageNum, int pageSize) {
+    public Page<VideoChannelDTO>  getAllVideoByChannelNameLatest(String channelName,int pageNum, int pageSize) {
         Pageable pageable = PageRequest.of(pageNum-1, pageSize, Sort.by(Sort.Direction.DESC, "createAt"));
-        Page<VideoChannelDTO> videos = repo.getVideosByChannelName(channelName,pageable);
-        int totalPage = videos.getTotalPages();
-        return new Pair<Integer,List<VideoChannelDTO>>(totalPage,videos.getContent());
+        return repo.getVideosByChannelName(channelName,pageable);
 
     }
-    public Pair<Integer,List<VideoChannelDTO>> getAllVideoByChannelNameOldest(String channelName,int pageNum, int pageSize) {
+    public Page<VideoChannelDTO> getAllVideoByChannelNameOldest(String channelName,int pageNum, int pageSize) {
         Pageable pageable = PageRequest.of(pageNum-1, pageSize, Sort.by(Sort.Direction.ASC, "createAt"));
-        Page<VideoChannelDTO> videos = repo.getVideosByChannelName(channelName,pageable);
-        int totalPage = videos.getTotalPages();
-        return new Pair<Integer,List<VideoChannelDTO>>(totalPage,videos.getContent());
+        return repo.getVideosByChannelName(channelName,pageable);
     }
 
     public List<VideoChannelDTO> getLimitVideosByChannelName(String channelName, int limit) {

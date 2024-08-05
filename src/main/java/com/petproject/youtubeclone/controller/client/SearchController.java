@@ -1,18 +1,13 @@
 package com.petproject.youtubeclone.controller.client;
 
 import com.petproject.youtubeclone.models.VideoElastic;
-import com.petproject.youtubeclone.models.dto.VideoChannelDTO;
-import com.petproject.youtubeclone.models.dto.VideoHomeDTO;
 import com.petproject.youtubeclone.services.VideoSearchService;
-import com.petproject.youtubeclone.services.VideoService;
-import com.petproject.youtubeclone.utils.YoutubeUtil;
 import jakarta.servlet.http.HttpServletRequest;
-import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -34,10 +29,10 @@ public class SearchController {
                 .build()
                 .toUriString();
         String searchTrim = searchText.trim();
-        Pair<Integer, List<VideoElastic>> pair =
+         Page<VideoElastic> firstPage =
                 service.searchVideo(searchTrim,1, pageSize);
-        int totalPage = pair.getKey();
-        List<VideoElastic> searchVideos = pair.getValue();
+        int totalPage = firstPage.getTotalPages();
+        List<VideoElastic> searchVideos = firstPage.getContent();
         for(VideoElastic video : searchVideos){
             System.out.println(video.getTitle());
         }
@@ -52,7 +47,7 @@ public class SearchController {
                                     @RequestParam("pageNum") int pageNum,
                                     @RequestParam("width") int widthBrowser,
                                     Model model) {
-        List<VideoElastic> searchVideos = service.searchVideo(searchText,pageNum,pageSize).getValue();
+        List<VideoElastic> searchVideos = service.searchVideo(searchText,pageNum,pageSize).getContent();
 
         model.addAttribute("searchVideos",searchVideos);
         if(widthBrowser>=720)

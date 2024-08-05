@@ -5,9 +5,9 @@ import com.petproject.youtubeclone.models.dto.VideoHomeDTO;
 import com.petproject.youtubeclone.services.VideoService;
 import com.petproject.youtubeclone.utils.YoutubeUtil;
 import jakarta.servlet.http.HttpServletRequest;
-import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,9 +32,9 @@ public class HomeController {
                 .replacePath(null)
                 .build()
                 .toUriString();
-        Pair<Integer, List<VideoHomeDTO>> pair = service.getAllVideo(pageNum,pageSize);
-        List<VideoHomeDTO> pageVideos = pair.getValue();
-        int totalPage = pair.getKey();
+        Page<VideoHomeDTO> firstPage = service.getAllVideo(pageNum,pageSize);
+        List<VideoHomeDTO> pageVideos = firstPage.getContent();
+        int totalPage = firstPage.getTotalPages();
         pageVideos.stream().peek(video -> {
             String title = video.getTitle();
             if(title.length()>58){
@@ -50,7 +50,7 @@ public class HomeController {
     }
     @PostMapping(value = { "/page/{pageNum}" })
     public String loadingVideos(@PathVariable("pageNum") int pageNum, Model model) {
-        List<VideoHomeDTO> pageVideos = service.getAllVideo(pageNum,pageSize).getValue();
+        List<VideoHomeDTO> pageVideos = service.getAllVideo(pageNum,pageSize).getContent();
         pageVideos.stream().peek(video -> {
             String title = video.getTitle();
             if(title.length()>58){

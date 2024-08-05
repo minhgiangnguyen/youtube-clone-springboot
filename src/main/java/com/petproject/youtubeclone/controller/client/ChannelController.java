@@ -6,8 +6,8 @@ import com.petproject.youtubeclone.services.UserService;
 import com.petproject.youtubeclone.services.VideoService;
 import com.petproject.youtubeclone.utils.YoutubeUtil;
 import jakarta.servlet.http.HttpServletRequest;
-import javafx.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,10 +53,10 @@ public class ChannelController {
                 .build()
                 .toUriString();
         UserChannelProjection channel = userService.getChannelByName(channelName);
-        Pair<Integer, List<VideoChannelDTO>> pair =
+        Page<VideoChannelDTO> firstPage =
                 videoService.getAllVideoByChannelNameLatest(channelName,1, pageSize);
-        List<VideoChannelDTO> pageVideos = pair.getValue();
-        int totalPage = pair.getKey();
+        List<VideoChannelDTO> pageVideos = firstPage.getContent();
+        int totalPage = firstPage.getTotalPages();
         pageVideos.stream().peek(video -> {
             String title = video.getTitle();
             if(title.length()>65){
@@ -76,8 +76,8 @@ public class ChannelController {
     public String sortVideos(@PathVariable("channelName") String channelName
             ,@RequestParam("s") String sortType, Model model){
         List<VideoChannelDTO> videoList =sortType.equals("latest")
-                ?videoService.getAllVideoByChannelNameLatest(channelName,1,pageSize).getValue()
-                :videoService.getAllVideoByChannelNameOldest(channelName,1,pageSize).getValue();
+                ?videoService.getAllVideoByChannelNameLatest(channelName,1,pageSize).getContent()
+                :videoService.getAllVideoByChannelNameOldest(channelName,1,pageSize).getContent();
         videoList.stream().peek(video -> {
             String title = video.getTitle();
             if(title.length()>65){
@@ -94,8 +94,8 @@ public class ChannelController {
             ,@PathVariable("pageNum") int pageNum
             ,@RequestParam("s") String sortType, Model model){
         List<VideoChannelDTO> videoList =sortType.equals("latest")
-                ?videoService.getAllVideoByChannelNameLatest(channelName,pageNum,pageSize).getValue()
-                :videoService.getAllVideoByChannelNameOldest(channelName,pageNum,pageSize).getValue();
+                ?videoService.getAllVideoByChannelNameLatest(channelName,pageNum,pageSize).getContent()
+                :videoService.getAllVideoByChannelNameOldest(channelName,pageNum,pageSize).getContent();
         videoList.stream().peek(video -> {
             String title = video.getTitle();
             if(title.length()>65){
