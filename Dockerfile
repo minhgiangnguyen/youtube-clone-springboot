@@ -1,4 +1,4 @@
 FROM eclipse-temurin:17-jdk-alpine
 VOLUME /tmp
-COPY --from=build /app/target/your-app.jar /app/your-app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+COPY target/*.jar youtubeclone-0.0.1-SNAPSHOT.jar
+ENTRYPOINT ["java","-jar","/youtubeclone-0.0.1-SNAPSHOT.jar"]
