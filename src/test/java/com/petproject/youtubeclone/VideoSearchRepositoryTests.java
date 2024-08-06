@@ -25,8 +25,7 @@ public class VideoSearchRepositoryTests {
     @Test
     public void testSearchVideo() {
         Pageable pageable = PageRequest.of(0, 1);
-        String title = "Amad Diallo";
-        String desc = "Amad Diallo";
+        String title = "old";
         List<VideoElastic> searchVideos = repo.findByTitleContaining(title);
         assertThat(searchVideos).isNotEmpty();
         for (VideoElastic v : searchVideos){

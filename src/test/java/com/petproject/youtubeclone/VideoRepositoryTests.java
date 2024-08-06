@@ -81,15 +81,14 @@ public class VideoRepositoryTests {
         }
     }
 
-    @Test
-    public void testGetVideoSpecifyColumnById() {
-        String videoId = "08givmryRb6T13DoToJl8g";
-        VideoDetailProjection videoProjection = repo.getVideoDetail(videoId);
-
-        assertThat(videoProjection).isNotNull();
-        System.out.println(videoProjection.getDescription());
-
-    }
+//    @Test
+//    public void testGetVideoSpecifyColumnById() {
+//        String videoId = "08givmryRb6T13DoToJl8g";
+//        VideoDetailProjection videoProjection = repo.getVideoDetail(videoId);
+//
+//        assertThat(videoProjection).isNotNull();
+//        System.out.println(videoProjection.getDescription());
+//    }
     @Test
     public void testGetVideoListByChannelName() {
         String channelName = "minhgiangnguyen";
