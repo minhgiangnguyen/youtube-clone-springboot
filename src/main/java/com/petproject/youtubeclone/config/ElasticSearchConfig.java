@@ -26,9 +26,9 @@ public class ElasticSearchConfig extends ElasticsearchConfiguration {
     @Override
     public ClientConfiguration clientConfiguration() {
         return ClientConfiguration.builder()
-                .connectedToLocalhost()
+                .connectedTo("youtubeclone-search-5526459131.us-east-1.bonsaisearch.net:443")
                 .usingSsl(buildSSLContext())
-                .withBasicAuth("elastic","123456")
+                .withBasicAuth("ddd0b98884","if4r0a5rqg")
                 .withConnectTimeout(Duration.ofMillis(10000))
                 .withSocketTimeout(Duration.ofMillis(60000))
                 .build();
