@@ -16,10 +16,7 @@ import java.time.Duration;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "com.petproject.youtubeclone.repositories.jpa")
-@EnableElasticsearchRepositories(
-        basePackages = "com.petproject.youtubeclone.repositories.elasticsearch",
-        repositoryFactoryBeanClass = ElasticsearchRepositoryFactoryBean.class
-)
+@EnableElasticsearchRepositories(basePackages = "com.petproject.youtubeclone.repositories.elasticsearch")
 public class ElasticSearchConfig extends ElasticsearchConfiguration {
 //public class ElasticSearchConfig {
 
