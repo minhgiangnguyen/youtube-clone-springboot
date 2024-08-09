@@ -1,13 +1,15 @@
-# Build Stage
-FROM maven:3.8.6-openjdk-17 AS build
-WORKDIR /app
+#
+# Build stage
+#
+FROM maven:3.9.8-eclipse-temurin-21 AS build
 COPY . .
 RUN mvn clean package -DskipTests
 
-# Runtime Stage
-FROM openjdk:17-jdk-slim
-WORKDIR /app
-COPY --from=build /app/target/youtubeclone-0.0.1-SNAPSHOT.jar /app/youtubeclone-0.0.1-SNAPSHOT.jar
-
-# Run the Spring Boot application
-ENTRYPOINT ["java", "-jar", "your-app.jar"]
+#
+# Package stage
+#
+FROM eclipse-temurin:21-jdk
+COPY --from=build /target/youtubeclone-0.0.1-SNAPSHOT.jar youtubeclone.jar
+# ENV PORT=8080
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","youtubeclone.jar"]
