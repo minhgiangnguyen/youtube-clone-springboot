@@ -13,3 +13,4 @@ COPY --from=build /target/youtubeclone-0.0.1-SNAPSHOT.jar youtubeclone.jar
 # ENV PORT=8080
 EXPOSE 8080
 ENTRYPOINT ["java","-jar","youtubeclone.jar"]
+
