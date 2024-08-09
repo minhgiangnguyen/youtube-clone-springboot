@@ -23,11 +23,11 @@ public class ElasticSearchConfig extends ElasticsearchConfiguration {
     @Override
     public ClientConfiguration clientConfiguration() {
         return ClientConfiguration.builder()
-                .connectedTo("youtubeclone-search-5526459131.us-east-1.bonsaisearch.net:443")
-                .usingSsl(buildSSLContext())
-                .withBasicAuth("ddd0b98884","if4r0a5rqg")
-                .withConnectTimeout(Duration.ofMillis(10000))
-                .withSocketTimeout(Duration.ofMillis(60000))
+                .connectedTo("df668bcc889d4b9d843fad585d2b9c48.us-central1.gcp.cloud.es.io:9243")
+                .usingSsl()
+                .withBasicAuth("enterprise_search","123456")
+                .withConnectTimeout(Duration.ofMillis(60000)) // Increased timeout for testing
+                .withSocketTimeout(Duration.ofMillis(180000)) // Increased socket timeout for testing
                 .build();
 
     }
