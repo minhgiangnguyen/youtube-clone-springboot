@@ -16,17 +16,13 @@ import java.time.Duration;
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "com.petproject.youtubeclone.repositories.jpa")
-@EnableElasticsearchRepositories(
-        basePackages = "com.petproject.youtubeclone.repositories.elasticsearch",
-        repositoryFactoryBeanClass = ElasticsearchRepositoryFactoryBean.class
-)
+@EnableElasticsearchRepositories(basePackages = "com.petproject.youtubeclone.repositories.elasticsearch")
 public class ElasticSearchConfig extends ElasticsearchConfiguration {
 //public class ElasticSearchConfig {
 
     @Override
     public ClientConfiguration clientConfiguration() {
         return ClientConfiguration.builder()
-
                 .connectedTo("df668bcc889d4b9d843fad585d2b9c48.us-central1.gcp.cloud.es.io:9243")
                 .usingSsl()
                 .withBasicAuth("enterprise_search","123456")
